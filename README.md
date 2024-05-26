@@ -15,3 +15,5 @@
 #### Informações
 
 **O projeto visa a aplicação de filtros em imagens, além da utilização de histogramas em imagens.**
+
+...
