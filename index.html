@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/style.css">
+        <script type="module" src="./Main.js" ></script>
+        <script type="module" src="./Scripts/AnalisaPGM/analisaPGM.js" ></script>
+        <script type="module" src="./Scripts/CriacaoDeMatrizes/criarMatriz.js" ></script>
+        <script type="module" src="./Scripts/RenderizarImagem/renderizarNoCanvas.js" ></script>
+        <script type="module" src="./Scripts/Filtros/filtros.js"></script>
+        <script type="module" src="./Scripts/AjustesPixels/AjustaPixel.js"></script>
+        <script type="module" src="./Scripts/Filtros/aplicarFiltros.js"></script>
+        <script type="module" src="./Scripts/AjustesPixels/AjustaPixel.js"></script>
+        
+        
+        <title>Computação Gráfica 2024.1</title>
+    </head>
+
+    <body>
+
+        <!-- Informações do cabeçalho do sistema -->
+        <header class="header"> 
+
+            <div class="titulo">
+                <h1>Computação Gráfica 2024</h1>
+            </div> 
+
+            <div class="nomesMembros">
+                <h5>Arthur Felipe Muniz Sales -</h5>
+                <h5>- Rafael freire tertuliano -</h5>
+                <h5>- Victor Emanoel M Cabral</h5>
+            </div>
+
+        </header>
+
+        <!-- Parte Relacionada ao conteúdo total, tanto a parte de importação da imagem, filtros, matriz e canvas -->
+        <main class="main">
+
+            <!-- Parte relacionada ao conteiner esquerdo, onde fica importação da imagem, filtros e a matriz -->
+            <section class="impotacaoOpcaoImagem">
+                <h3>Importar Imagem</h3> 
+
+                <!-- Parte relacionada a importação da imagem a ser processada. -->
+                <div class="importar">
+                    <label for="imagemInput">Selecione uma imagem</label>
+                    <input type="file" id="imagemInput" accept=".pgm"/>
+                </div>
+
+                <!-- Parte relacionada a seleção do tipo de filtro que irá ser aplicado na imagem -->
+                <div class="opcaoDeProcesso" style="display: none;">
+
+                    <label for="opcaoDePr">Processos</label>
+                    <select id="opcaoDePr" name="opcaoDePr" >
+                        <option value="opcaoP1">Filtros</option>
+                        <option value="opcaoP2">Histograma</option>
+                        <option value="opcaoP3">etc....</option>
+                    </select>
+
+                </div>
+
+                <!-- **************************************** PARA AS OPÇÕES DE FILTROS **************************************** -->
+
+                <!-- Parte relacionada a seleção do tipo de filtro que irá ser aplicado na imagem -->
+                <div class="opcaoFiltro" style="display: none;">
+
+                    <label for="opcoes">Escolha uma opção</label>
+                    <select id="opcoes" name="opcoes">
+                        <option value="opcao1">.............</option>
+                        <option value="opcao2">Média</option>
+                        <option value="opcao3">Mediana</option>
+                        <option value="opcao4">Passa Alta Básica</option>
+                        <option value="opcao5">Roberts em X</option>
+                        <option value="opcao6">Roberts em Y</option>
+                        <option value="opcao7">Roberts em X - Y</option>
+                        <option value="opcao8">Roberts Cruzado em X</option>
+                        <option value="opcao9">Roberts Cruzado em Y</option>
+                        <option value="opcao10">Roberts Cruzado em X - Y</option>
+                        <option value="opcao11">Prewitt em X</option>
+                        <option value="opcao12">Prewitt em Y</option>
+                        <option value="opcao13">Prewitt em X - Y</option>
+                        <option value="opcao14">Auto Reforço HB</option>
+                        <option value="opcao15">Sobel em X</option>
+                        <option value="opcao16">Sobel em Y</option>
+                        <option value="opcao17">Sobel em X - Y</option>
+                    </select>
+
+                </div>                
+
+                <!-- **************************************** PARA AS OPÇÕES DE HISTOGRAMAS **************************************** -->
+
+                <!-- FALTA FAZER....-->
+
+            </section>
+
+            <!-- Parte referente as imagens, tanto a aberta pelo o usuário quanto a imagem processada -->
+            <section class="visualizacaoImagens">
+
+                <!-- Canvas referente a imagem importada do usuário -->
+                <div class="imagemImportadaFiltro " style="display: none;">
+                    <canvas id="canvasImgImport"></canvas>
+                </div>
+
+                <!-- Parte referente a informação do filtro escolhido -->
+                <div class="infoFiltro" style="display: none;">
+                    <h4>Filtros</h4>
+                    
+                    <div class="matriz1">
+                        <h6 id="matriz1">Filtro</h6>                        
+                        <div class="matriz">
+                            <div class="linha">
+                                <input type="number" class="celula" id="celula00" value="0">
+                                <input type="number" class="celula" id="celula01" value="0">
+                                <input type="number" class="celula" id="celula02" value="0">
+                            </div>
+                            <div class="linha">
+                                <input type="number" class="celula" id="celula10" value="0">
+                                <input type="number" class="celula" id="celula11" value="0">
+                                <input type="number" class="celula" id="celula12" value="0">
+                            </div>
+                            <div class="linha">
+                                <input type="number" class="celula" id="celula20" value="0">
+                                <input type="number" class="celula" id="celula21" value="0">
+                                <input type="number" class="celula" id="celula22" value="0">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="matriz2" style="display: none;">
+                        <h6 id="matriz2">Filtro</h6>
+                        <div class="matriz">
+                            <div class="linha">
+                                <input type="number" class="celula" id="2celula00" value="0">
+                                <input type="number" class="celula" id="2celula01" value="0">
+                                <input type="number" class="celula" id="2celula02" value="0">
+                            </div>
+                            <div class="linha">
+                                <input type="number" class="celula" id="2celula10" value="0">
+                                <input type="number" class="celula" id="2celula11" value="0">
+                                <input type="number" class="celula" id="2celula12" value="0">
+                            </div>
+                            <div class="linha">
+                                <input type="number" class="celula" id="2celula20" value="0">
+                                <input type="number" class="celula" id="2celula21" value="0">
+                                <input type="number" class="celula" id="2celula22" value="0">
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="valorParaFiltroHB" style="display: none;">
+                        <input type="number" id="valorHB" value="0">
+                        <button id="setarHBNaMatriz">Valor W</button>
+                    </div>
+
+                    <!-- opcao de ajuste de pixel -->
+                    <div class="ajusteDePixel">
+                        <input type="radio" id="radio1" name="ajusteDePixel" checked>
+                        <label for="radio1">Truncar</label>
+
+                        <input type="radio" id="radio2" name="ajusteDePixel">
+                        <label for="radio2">Normalizar</label>
+                    </div>
+
+                    <!-- Botão para aplicar o filtro escolhido -->
+                    <div class="botaoAplicar" style="display: none;">
+                        <button id="aplicarFlitro" class="btnAplicarFilto">Aplicar</button> 
+                    </div>
+
+                </div>
+
+                <!-- Canvas referente a imagem com o filtro aplicado -->
+                <div class="imagemFiltradaFiltro" style="display: none;">
+                    <canvas id="canvasImgFiltrada"></canvas>
+                </div>
+
+                <!-- **************************************** PARA OS HISTOGRAMAS **************************************** -->
+
+                <!-- FALTA FAZER.........-->
+
+            </section>
+
+        </main>
+
+    </body>
+    
+</html>

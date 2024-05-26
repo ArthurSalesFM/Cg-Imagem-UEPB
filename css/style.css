@@ -1,0 +1,464 @@
+:root {
+    --cor-de-borda: rgba(59,228,246,255);
+    --cor-de-fundo: rgba(59,228,246, 0.2);
+    --cor-de-fundo2: rgba(2,24,58,0.7);
+    --cor-de-textos: white;
+    --cor-de-sombra: rgba(0, 0, 0, 0.7);
+}
+
+body{
+    background-image: url('../Imagens/backGround.jpg');
+    background-size: cover;
+}
+
+/* ------------------------------------- CABEÇALHO(HEADER) ------------------------------------- */
+
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: center;
+    height: 60px;    
+    background-image: url('../Imagens/header.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 30px;
+    border: 1px solid var(--cor-de-borda);
+}
+
+.titulo{
+    margin-left: 25px;
+    margin-top: -10px;
+    color: var(--cor-de-textos);
+}
+
+.titulo:hover{
+    color: red;
+}
+
+.nomesMembros{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: -8px;
+    margin-right: 10px;
+}
+
+.nomesMembros h5{
+    font-size: 18px;
+    color: var(--cor-de-textos);
+}
+
+.nomesMembros h5:hover{
+    color: red;
+}
+
+/* ------------------------------------- CORPO(main) ------------------------------------- */
+
+.main{
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid var(--cor-de-borda);
+    height: 89vh;
+    border-radius: 30px;
+}
+
+/* ------------------------------------- SECTION(impotacaoOpcaoImagem) ------------------------------------- */
+
+.impotacaoOpcaoImagem{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 15%;
+    height: 95%;
+    border: 1px solid var(--cor-de-borda);
+    border-radius: 30px;
+    margin-left: 1%;
+    margin-top: 1%;
+    background-color: var(--cor-de-fundo);
+    box-shadow: -10px 0 10px 0px var(--cor-de-sombra);    
+}
+
+.impotacaoOpcaoImagem h3{
+    color: var(--cor-de-textos);
+    text-align: center;
+    margin-top: 2px;
+}
+
+/* ------------------------------------- DIV(importar) ------------------------------------- */
+
+.importar{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 12%;
+    border: 1px solid var(--cor-de-borda);
+    border-radius: 30px;
+    box-shadow: 10px 10px 0px 0px var(--cor-de-sombra);
+}
+
+input[type="file"]{
+    display: none;
+}
+
+.importar label{
+    text-transform: uppercase;
+    color: var(--cor-de-textos);
+    background-color: var(--cor-de-fundo2);
+    text-align: center;
+    padding: 8px 8px;
+    font-size: 13px;
+    border-radius: 30px;
+}
+
+.importar label:hover{
+    background-color: rgba(2,24,58,255);
+    font-weight: bold;
+    color: red;
+    box-shadow: 3px 3px 0px 0px var(--cor-de-sombra);
+}
+/* ------------------------------------- DIV(opcaoDeProcesso) ------------------------------------- */
+
+.opcaoDeProcesso{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 15px;
+    width: 90%;
+    height: 20%;
+    border: 1px solid var(--cor-de-borda);
+    border-radius: 30px;
+    box-shadow: 10px 10px 0px 0px var(--cor-de-sombra);
+}
+
+.opcaoDeProcesso label {
+    max-width: 100%;
+    margin-top: 5px;
+    font-size: 20px;
+    color: var(--cor-de-textos);
+    margin-bottom: 10px;
+}
+
+#opcaoDePr{
+    width: 80%;
+    height: 20%;
+    border-radius: 30px;
+    margin-top: 10px;
+    background-color: var(--cor-de-fundo2);
+    color: white;
+    text-align: center;
+}
+
+#opcaoDePr:hover{
+    background-color: rgba(2,24,58,255);
+    font-weight: bold;
+    color: red;
+    box-shadow: 3px 3px 0px 0px var(--cor-de-sombra);
+}
+
+#opcaoDePr:disabled{
+    background-color: black;
+    color: black;
+    cursor: not-allowed;
+}
+
+#opcaoDePr:disabled:hover{
+    background-color: black;
+    color: black;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7)
+}
+
+/* ------------------------------------- DIV(opcaoFiltro) ------------------------------------- */
+
+.opcaoFiltro{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+    text-align: center;
+    width: 90%;
+    height: 53%;
+    border: 1px solid var(--cor-de-borda);
+    border-radius: 30px;
+    box-shadow: 10px 10px 0px 0px var(--cor-de-sombra);
+}
+
+.opcaoFiltro label {
+    margin-top: 20px;
+    font-size: 20px;
+    color: var(--cor-de-textos);
+    margin-bottom: 10px;
+}
+
+#opcoes{    
+    width: 80%;
+    height: 8%;
+    border-radius: 30px;
+    background-color: var(--cor-de-fundo2);
+    color: white;
+    text-align: center;
+    margin-top: 15px;
+}
+
+#opcoes:hover{
+    background-color: rgba(2,24,58,255);
+    font-weight: bold;
+    color: red;
+    box-shadow: 3px 3px 0px 0px var(--cor-de-sombra);
+}
+
+#opcoes:disabled{
+    background-color: black;
+    color: black;
+    cursor: not-allowed;
+}
+
+#opcoes:disabled:hover{
+    background-color: black;
+    color: black;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7)
+}
+
+/* ------------------------------------- DIV(infoFilto) ------------------------------------- */
+
+.infoFiltro h4{
+    font-size: 25px;
+    color: white;
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+.infoFiltro h6{
+    font-size: 15px;
+    color: white;
+    margin-top: 15px;
+    margin-bottom: 1px;
+}
+
+.infoFiltro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 15px;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    width: 20%;
+    height: 80%;
+    border: 1px solid var(--cor-de-borda);
+    border-radius: 30px;
+    box-shadow: 10px 10px 0px 0px var(--cor-de-sombra);
+}
+
+.matriz {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.linha {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.linha:first-child{
+    margin-top: 5px;
+}
+
+.celula {
+    width: 60px; /* Largura das células, ajuste conforme necessário */
+    height: 30px; /* Altura das células, ajuste conforme necessário */
+    border: 1px solid black; /* Adiciona uma borda preta para visualização */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cor-de-fundo2);
+    color: white;
+    font-size: 15px;
+    text-align: left;
+}
+
+.celula:hover{
+    border: 1px solid red;
+    color: red;
+}
+
+.celula:disabled{
+    background-color: black;
+    color: black;
+    cursor: not-allowed;
+    border: 1px solid black;
+}
+
+.celula:disabled:hover{
+    background-color: black;
+    color: black;
+}
+
+.valorParaFiltroHB{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}
+
+.valorParaFiltroHB input[type="number"]{
+    width: 40px; /* Largura das células, ajuste conforme necessário */
+    height: 15px; /* Altura das células, ajuste conforme necessário */
+    border: 1px solid black; /* Adiciona uma borda preta para visualização */
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cor-de-fundo2);
+    color: white;
+    font-size: 15px;
+    text-align: left;
+    padding: 5px;
+}
+
+.valorParaFiltroHB input[type="number"]:hover{
+    border: 1px solid red;
+    color: red;
+}
+
+#setarHBNaMatriz{
+    background-color: var(--cor-de-fundo2);
+    color: var(--cor-de-textos);
+    padding: 5px 5px;
+    border-radius: 20px;
+    font-size: 15px;
+}
+
+#setarHBNaMatriz:hover{
+    background-color: rgba(2,24,58,255);
+    color: red;
+    box-shadow: -5px 5px 5px 0px var(--cor-de-sombra);
+}
+
+#setarHBNaMatriz:disabled{
+    background-color: black;
+    color: black;
+    cursor: not-allowed;
+}
+
+#setarHBNaMatriz:disabled:hover{
+    background-color: black;
+    color: black;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7)
+}
+
+.ajusteDePixel input[type="radio"]{
+    margin-top: 5%;
+    margin-bottom: 10%;
+}
+
+.ajusteDePixel label {    
+    font-size: 15px; /* Tamanho da fonte */
+    color: var(--cor-de-textos); /* Cor do texto */
+  }
+
+/* ------------------------------------- SECTION(visualizacaoImagens) ------------------------------------- */
+
+.visualizacaoImagens{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 95%;
+    border: 1px solid var(--cor-de-borda);
+    border-radius: 30px;
+    margin-right: 1%;
+    margin-top: 1%;
+    background-color: var(--cor-de-fundo);
+    box-shadow: -10px 10px 10px 0px var(--cor-de-sombra); 
+}
+
+/* ------------------------------------- DIV IMAGEM ENVIADA(imagemImportadaFiltro) ------------------------------------- */
+
+.imagemImportadaFiltro {
+    height: 90%;
+    width: 35%;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--cor-de-borda);
+    background-color: var(--cor-de-fundo);
+    box-shadow: 10px 10px 10px 0px var(--cor-de-sombra);
+    border-radius: 10px;
+}
+
+.imagemImportadaFiltro canvas {
+    padding: 0;
+    margin: auto;
+    margin-top: 2.5%;
+    display: block;
+    width: 95%;
+    height: 95%;
+    background-color: white;
+}
+
+/* ------------------------------------- BOTÃO DA APLICAÇÃO DOS FILTROS(btnAplicarFilto) ------------------------------------- */
+
+.botaoAplicar{
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.btnAplicarFilto{
+    background-color: var(--cor-de-fundo2);
+    color: var(--cor-de-textos);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 15px;
+}
+
+.btnAplicarFilto:hover{
+    background-color: rgba(2,24,58,255);
+    color: red;
+    box-shadow: -5px 5px 5px 0px var(--cor-de-sombra);
+}
+
+.btnAplicarFilto:disabled{
+    background-color: black;
+    color: black;
+    cursor: not-allowed;
+}
+
+.btnAplicarFilto:disabled:hover{
+    background-color: black;
+    color: black;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7)
+}
+
+/* ------------------------------------- DIV IMAGEM ENVIADA(imagemFiltrada) ------------------------------------- */
+
+.imagemFiltradaFiltro{
+    height: 90%;
+    width: 35%;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--cor-de-borda);
+    background-color: var(--cor-de-fundo);
+    box-shadow: 10px 10px 10px 0px var(--cor-de-sombra);
+    border-radius: 10px;
+}
+
+.imagemFiltradaFiltro canvas {
+    padding: 0;
+    margin: auto;
+    margin-top: 2.5%;
+    display: block;
+    width: 95%;
+    height: 95%;
+    background-color: white;
+}
