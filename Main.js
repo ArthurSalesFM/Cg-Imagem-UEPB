@@ -46,12 +46,20 @@ const _celula22 = document.getElementById('2celula22');
 const aplicarFlitro = document.getElementById('aplicarFlitro');
 const tituloMatriz1 = document.getElementById('matriz1');
 const tituloMatriz2 = document.getElementById('matriz2');
+const btnMostrarHistograma = document.getElementById('mostrarHistograma');
+const btnFecharHistograma = document.getElementById('fecharHistograma');
 
 //Canvas
 const canvaDaImagemPrincipalFiltros = document.getElementById('canvasImgImport');//Canvas que recebe a imagem importada
 var canvasCtx = canvaDaImagemPrincipalFiltros.getContext('2d');
 const canvasImgFiltrada = document.getElementById('canvasImgFiltrada'); // Canvas onde será mostrado a nova imagem após filtro
 var canvasFiltro = canvasImgFiltrada.getContext('2d');
+
+//Canvas dos histogramas
+const canvasImagemImportadaHistograma = document.getElementById('imagemOriginalHist');
+const canvasImagemProcessadaHistograma = document.getElementById('imagemModificadaHist');
+const canvasDeDadosDaImagemInportadaHistograma = document.getElementById('histogramaDaImagemOriginal');
+const canvasDeDadosDaImagemProcessadaHistograma = document.getElementById('histogramaDaImagemModificada');
 
 //Variáveis
 var opcaoDeFiltro; // Variável criada para armazenar o tipo de filtro escolhido, para não precisar criar outra função do select
@@ -81,6 +89,7 @@ function habilitaDesabilitaInputeAplicacaoDoFiltro( valor){
     _celula22.disabled = valor;
 }
 
+//Função para habilitar e desabilitar os componentes de filtros
 function ativaDivsDeFiltro(mostrar){    
     divOpcaoFiltro.style.display = mostrar ? 'block' : 'none';
     divInfoFiltro.style.display = mostrar ? 'block' : 'none';
@@ -343,4 +352,14 @@ btnAplicarFlitro.addEventListener('click', function(){
         matrizModificada = normalizarValores(matrizModificada);
     }
     renderizarPGMNoCanvas(dadosPGM, matrizModificada, canvasImgFiltrada);
+});
+
+//Botão para mostrar a parte do histograma
+btnMostrarHistograma.addEventListener('click', function(){
+    document.getElementById('divParteHistrograma').style.display = 'flex';
+});
+
+//
+btnFecharHistograma.addEventListener('click', function(){
+    document.getElementById('divParteHistrograma').style.display = 'none';
 });

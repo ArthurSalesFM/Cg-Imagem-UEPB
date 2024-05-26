@@ -14,8 +14,23 @@ export function somaDeMatrizes(matrizA, matrizB){
     return matrizC;
 }
 
+// Função para subtrair matrizes pixel a pixel
+export function subtracaoDeMatrizes(matrizA, matrizB){
+    let matrizC = [];
+
+    for(var linha = 0; linha < matrizA.length; linha++){
+        var row = [];
+        for(var coluna = 0; coluna < matrizA[0].length; coluna++){
+            row.push(matrizA[linha][coluna] - matrizB[linha][coluna]);
+        }
+        matrizC.push(row);
+    }
+    return matrizC;
+}
+
+
 //Função que aplica o filtro da mediana com base na matriz da imagem, como se trata de um filtro baseado na imagem
-//o tratamento requer outra função
+//o tratamento requer outra função pois os valores vem da própria imagem
 export function filtroMediana(matrizBase){
     let matrizSaida = []
     

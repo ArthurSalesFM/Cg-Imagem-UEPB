@@ -97,6 +97,8 @@
             <!-- Parte referente as imagens, tanto a aberta pelo o usuário quanto a imagem processada -->
             <section class="visualizacaoImagens">
 
+                <!-- **************************************** PARA DOS FILTROS **************************************** -->
+
                 <!-- Canvas referente a imagem importada do usuário -->
                 <div class="imagemImportadaFiltro " style="display: none;">
                     <canvas id="canvasImgImport"></canvas>
@@ -168,6 +170,10 @@
                         <button id="aplicarFlitro" class="btnAplicarFilto">Aplicar</button> 
                     </div>
 
+                    <div class="btnMostrarHistograma">
+                        <button id="mostrarHistograma" class="btnAplicarFilto">Histograma</button> 
+                    </div>
+
                 </div>
 
                 <!-- Canvas referente a imagem com o filtro aplicado -->
@@ -177,7 +183,25 @@
 
                 <!-- **************************************** PARA OS HISTOGRAMAS **************************************** -->
 
-                <!-- FALTA FAZER.........-->
+                <div class="divParteHistrograma" id="divParteHistrograma" style="display: none;">
+
+                    <div class="divParteHistrograma_Saidas">
+                        <canvas class="imagensDeSaida" id="imagemOriginalHist"></canvas>
+                        <canvas class="distribucaoDeTons" id="histogramaDaImagemOriginal"></canvas>
+                        <div id="parteDoDegradePretoBranco"></div>                        
+                    </div>
+
+                    <div class="divParteHistrograma_Saidas">
+                        <canvas class="imagensDeSaida" id="imagemModificadaHist"></canvas>
+                        <canvas class="distribucaoDeTons" id="histogramaDaImagemModificada"></canvas>
+                        <div id="parteDoDegradePretoBranco"></div>
+                    </div>
+
+                    <div class="btnOcultarHistograma">
+                        <button id="fecharHistograma">X</button>
+                    </div>
+
+                </div>
 
             </section>
 
