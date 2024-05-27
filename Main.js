@@ -4,6 +4,8 @@ import { renderizarPGMNoCanvas } from "./Scripts/RenderizarImagem/renderizarNoCa
 import * as filtro from "./Scripts/Filtros/filtros.js";
 import * as aplicar from "./Scripts/Filtros/aplicarFiltros.js";
 import {normalizarValores, truncarValores} from "./Scripts/AjustesPixels/AjustaPixel.js";
+import { criacaoDasTabelas } from "./Scripts/Histograma/ExtracaoDeDados.js";
+import { exibirInformacoesHistograma } from "./Scripts/Histograma/exibicaoDeDados.js";
 
 // sections/div 
 const divOpcaoDeProcesso = document.querySelector('.opcaoDeProcesso');
@@ -54,12 +56,6 @@ const canvaDaImagemPrincipalFiltros = document.getElementById('canvasImgImport')
 var canvasCtx = canvaDaImagemPrincipalFiltros.getContext('2d');
 const canvasImgFiltrada = document.getElementById('canvasImgFiltrada'); // Canvas onde será mostrado a nova imagem após filtro
 var canvasFiltro = canvasImgFiltrada.getContext('2d');
-
-//Canvas dos histogramas
-const canvasImagemImportadaHistograma = document.getElementById('imagemOriginalHist');
-const canvasImagemProcessadaHistograma = document.getElementById('imagemModificadaHist');
-const canvasDeDadosDaImagemInportadaHistograma = document.getElementById('histogramaDaImagemOriginal');
-const canvasDeDadosDaImagemProcessadaHistograma = document.getElementById('histogramaDaImagemModificada');
 
 //Variáveis
 var opcaoDeFiltro; // Variável criada para armazenar o tipo de filtro escolhido, para não precisar criar outra função do select
@@ -148,9 +144,8 @@ function lidarComUploadDeArquivo(evento) {
         const leitor = new FileReader(); // Cria uma nova instância do FileReader para ler o arquivo
         leitor.onload = function(e) { // Define uma função que será chamada quando a leitura do arquivo estiver completa
             const texto = e.target.result; // Obtém o conteúdo do arquivo como texto
-            dadosPGM = analisarPGM(texto); // Analisa o conteúdo do arquivo PGM e extrai os dados da imagem
+            dadosPGM = analisarPGM(texto); // Analisa o conteúdo do arquivo PGM e extrai os dados da imagem            
             matrizBase = criarMatriz(dadosPGM); // Cria a matriz de 256x256 com os valores dos pixels
-            
             canvasCtx.clearRect(0, 0, largura2, altura2);
             renderizarPGMNoCanvas(dadosPGM, matrizBase, canvaDaImagemPrincipalFiltros); // Renderiza a imagem PGM no canvas usando a matriz
         };
@@ -357,7 +352,17 @@ btnAplicarFlitro.addEventListener('click', function(){
 //Botão para mostrar a parte do histograma
 btnMostrarHistograma.addEventListener('click', function(){
     document.getElementById('divParteHistrograma').style.display = 'flex';
+    
+    //criacaoDasTabelas(matrizBase, dadosPGM.valorMaximo);
+
+    exibirInformacoesHistograma();
+
+
 });
+
+
+
+
 
 //
 btnFecharHistograma.addEventListener('click', function(){
