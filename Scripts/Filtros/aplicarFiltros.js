@@ -33,7 +33,6 @@ export function subtracaoDeMatrizes(matrizA, matrizB){
 //o tratamento requer outra função pois os valores vem da própria imagem
 export function filtroMediana(matrizBase){
     let matrizSaida = []
-    
     for(var linha = 0; linha < matrizBase.length; linha++){
         var row = [];
 

@@ -177,7 +177,7 @@ input[type="file"]{
 
 /* ------------------------------------- DIV(opcaoFiltro) ------------------------------------- */
 
-.opcaoFiltro{
+.opcaoFiltro, .opcaoOpMorfologicos{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -190,14 +190,14 @@ input[type="file"]{
     box-shadow: 10px 10px 0px 0px var(--cor-de-sombra);
 }
 
-.opcaoFiltro label {
+.opcaoFiltro, .opcaoOpMorfologicos label {
     margin-top: 20px;
     font-size: 20px;
     color: var(--cor-de-textos);
     margin-bottom: 10px;
 }
 
-#opcoes{    
+#opcoes, #opcoesOp{    
     width: 80%;
     height: 8%;
     border-radius: 30px;
@@ -207,20 +207,20 @@ input[type="file"]{
     margin-top: 15px;
 }
 
-#opcoes:hover{
+#opcoes:hover, #opcoesOp:hover{
     background-color: rgba(2,24,58,255);
     font-weight: bold;
     color: red;
     box-shadow: 3px 3px 0px 0px var(--cor-de-sombra);
 }
 
-#opcoes:disabled{
+#opcoes:disabled, #opcoesOp:disabled{
     background-color: black;
     color: black;
     cursor: not-allowed;
 }
 
-#opcoes:disabled:hover{
+#opcoes:disabled:hover, #opcoesOp:disabled:hover{
     background-color: black;
     color: black;
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7)
@@ -228,21 +228,21 @@ input[type="file"]{
 
 /* ------------------------------------- DIV(infoFilto) ------------------------------------- */
 
-.infoFiltro h4{
+.infoFiltro, .infoOpMorfologicos h4{
     font-size: 25px;
     color: white;
     margin-top: 5px;
     margin-bottom: 0;
 }
 
-.infoFiltro h6{
+.infoFiltro, .infoOpMorfologicos h6{
     font-size: 15px;
     color: white;
     margin-top: 15px;
     margin-bottom: 1px;
 }
 
-.infoFiltro {
+.infoFiltro, .infoOpMorfologicos {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -387,8 +387,8 @@ input[type="file"]{
 /* ------------------------------------- DIV IMAGEM ENVIADA(imagemImportadaFiltro) ------------------------------------- */
 
 .imagemImportadaFiltro {
-    height: 90%;
-    width: 35%;
+    /* height: 90%; */
+    /* width: 35%; */
     align-items: center;
     justify-content: center;
     border: 1px solid var(--cor-de-borda);
@@ -402,14 +402,14 @@ input[type="file"]{
     margin: auto;
     margin-top: 2.5%;
     display: block;
-    width: 95%;
+    /* width: 95%; */
     height: 95%;
     background-color: white;
 }
 
 /* ------------------------------------- BOTÃO DA APLICAÇÃO DOS FILTROS(btnAplicarFilto) ------------------------------------- */
 
-.botaoAplicar{
+.botaoAplicar, .botaoAplicarOp{
     margin-left: 2%;
     margin-right: 2%;
 }
@@ -443,8 +443,8 @@ input[type="file"]{
 /* ------------------------------------- DIV IMAGEM FILTRADA(imagemFiltrada) ------------------------------------- */
 
 .imagemFiltradaFiltro{
-    height: 90%;
-    width: 35%;
+    /* height: 90%; */
+    /* width: 35%; */
     align-items: center;
     justify-content: center;
     border: 1px solid var(--cor-de-borda);
@@ -458,8 +458,8 @@ input[type="file"]{
     margin: auto;
     margin-top: 2.5%;
     display: block;
-    width: 95%;
-    height: 95%;
+    /* width: 95%; */
+    /* height: 95%; */
     background-color: white;
 }
 

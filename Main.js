@@ -3,6 +3,7 @@ import { criarMatriz } from "./Scripts/CriacaoDeMatrizes/criarMatriz.js";
 import { renderizarPGMNoCanvas } from "./Scripts/RenderizarImagem/renderizarNoCanvas.js";
 import * as filtro from "./Scripts/Filtros/filtros.js";
 import * as aplicar from "./Scripts/Filtros/aplicarFiltros.js";
+import * as opMorfologicas from "./Scripts/OperacoesMorfologicas/operadores-morfologicos.js";
 import {normalizarValores, truncarValores} from "./Scripts/AjustesPixels/AjustaPixel.js";
 import { criacaoDasTabelas } from "./Scripts/Histograma/ExtracaoDeDados.js";
 import { exibirInformacoesHistograma } from "./Scripts/Histograma/exibicaoDeDados.js";
@@ -14,8 +15,13 @@ const divInfoFiltro = document.querySelector('.infoFiltro');
 const divValorParaFiltroHB = document.querySelector('.valorParaFiltroHB');
 const divImagemImportadaFiltro = document.querySelector('.imagemImportadaFiltro');
 const divBotaoAplicar = document.querySelector('.botaoAplicar');
+const divBotaoAplicarOp = document.querySelector('.botaoAplicarOp');
 const divImagemFiltradaFiltro = document.querySelector(".imagemFiltradaFiltro");
 const divMatriz2 = document.querySelector(".matriz2");
+
+const divOpcaoOpMorfologicos = document.querySelector('.opcaoOpMorfologicos');
+const divInfoOpMorfologicos = document.querySelector('.infoOpMorfologicos');
+const divValorParaOpMorfologicos = document.querySelector('.valorParaOpMorfologicos');
 
 //Constantes
 const opcaoDeProcessamento = document.getElementById('opcaoDePr'); // escolha do tipo de processamento (filtro/histograma/etc...)
@@ -23,7 +29,10 @@ const selectOpcoesFiltro = document.getElementById('opcoes'); // Obtém o select
 const btnSetarHBNaMatriz = document.getElementById('setarHBNaMatriz');//botão para setar o valor na matriz
 const EntradaValorHB = document.getElementById('valorHB'); // Campo onde usuário passa o valor para a Matriz HB
 const btnAplicarFlitro = document.getElementById('aplicarFlitro');// Botão para aplicar os filtros
+const btnAplicarOpMorfologicos = document.getElementById('aplicarOpMorfologicos');// Botão para aplicar operadores morfologicos
 const radioTruncamento = document.getElementById('radio1');
+
+const selectOpcoesOpMorfologicos = document.getElementById('opcoesOp'); // Obtém o select de opções
 
 // Células das duas matrizes
 const celula00 = document.getElementById('celula00');
@@ -61,6 +70,7 @@ var canvasFiltro = canvasImgFiltrada.getContext('2d');
 var opcaoDeFiltro; // Variável criada para armazenar o tipo de filtro escolhido, para não precisar criar outra função do select
 var dadosPGM; // Responsável por receber os dados ma imagem tratados.
 var matrizBase; // Matriz criada para ter apenas os valores que serão processados
+let opcaoOpMorfologicos; // Variável criada para armazenar o tipo de mascara escolhido, para não precisar criar outra função do select
 
 //Função para habilitar e desabilitar os componentes da tela
 function habilitaDesabilitaInputeAplicacaoDoFiltro( valor){
@@ -89,6 +99,15 @@ function habilitaDesabilitaInputeAplicacaoDoFiltro( valor){
 function ativaDivsDeFiltro(mostrar){    
     divOpcaoFiltro.style.display = mostrar ? 'block' : 'none';
     divInfoFiltro.style.display = mostrar ? 'block' : 'none';
+    divImagemImportadaFiltro.style.display = mostrar  ? 'block' : 'none';
+    divImagemFiltradaFiltro.style.display = mostrar  ? 'block' : 'none';
+    divBotaoAplicar.style.display = mostrar ? "block" : "none";
+}
+
+//Função para habilitar e desabilitar os componentes de filtros
+function ativaDivsOpMorfologicos(mostrar){    
+    divOpcaoOpMorfologicos.style.display = mostrar ? 'block' : 'none';
+    divInfoOpMorfologicos.style.display = mostrar ? 'block' : 'none';
     divImagemImportadaFiltro.style.display = mostrar  ? 'block' : 'none';
     divImagemFiltradaFiltro.style.display = mostrar  ? 'block' : 'none';
     divBotaoAplicar.style.display = mostrar ? "block" : "none";
@@ -158,14 +177,20 @@ document.addEventListener('DOMContentLoaded', iniciar);
 
 // Ouvinte para verificar mudanças de opção no processamento
 opcaoDeProcessamento.addEventListener('change', function(){
-    
+
+    //Desativa tudo caso troque a opção, assim a a gente evita ficar pondo uma chamada de false em cada if
+    ativaDivsDeFiltro(false);
+    habilitaDesabilitaInputeAplicacaoDoFiltro(false);
+    ativaDivsOpMorfologicos(false);
+    habilitaDesabilitaInputeAplicacaoDoFiltro(false);
+
     if(opcaoDeProcessamento.value === "opcaoP1"){
         ativaDivsDeFiltro(true);
         habilitaDesabilitaInputeAplicacaoDoFiltro(true);
-    }
-    else {
-        ativaDivsDeFiltro(false);
-        habilitaDesabilitaInputeAplicacaoDoFiltro(false);
+    }else if (opcaoDeProcessamento.value === 'opcaoP3') {
+        ativaDivsOpMorfologicos(true);
+        habilitaDesabilitaInputeAplicacaoDoFiltro(true);
+    }else {
         alert('Falta IMPLEMENTAR....');
     }
 });
@@ -286,6 +311,48 @@ selectOpcoesFiltro.addEventListener('change', function(){
 
 });
 
+// Ouvinte para verificar mudanças de opção dos filtros
+selectOpcoesOpMorfologicos.addEventListener('change', function(){
+
+    if(selectOpcoesOpMorfologicos.value === "opcao1"){
+        habilitaDesabilitaInputeAplicacaoDoFiltro(true);
+        opcaoOpMorfologicos = "";
+        tituloMatriz1.innerText = "Mascara"
+        divMatriz2.style.display = 'none';
+    }
+    else{
+        habilitaDesabilitaInputeAplicacaoDoFiltro(false);
+        opcaoOpMorfologicos = selectOpcoesOpMorfologicos.value;
+        divMatriz2.style.display = 'none';
+
+        console.log("selectOpcoesOpMorfologicos.value", selectOpcoesOpMorfologicos.value)
+        setValoresDosFiltrosNosInputsM1(opMorfologicas.matrizBase);
+
+        if(selectOpcoesOpMorfologicos.value === "op2"){
+            tituloMatriz1.innerText = "Erosão Cinza";
+        }else if(selectOpcoesOpMorfologicos.value === "op3"){
+            tituloMatriz1.innerText = "Dilatação Cinza";
+        }else if(selectOpcoesOpMorfologicos.value === "op4"){
+            tituloMatriz1.innerText = "Erosão Binária";
+        }else if(selectOpcoesOpMorfologicos.value === "op5"){
+            tituloMatriz1.innerText = "Dilatação Binária";
+        }else if(selectOpcoesOpMorfologicos.value === "op6"){
+            tituloMatriz1.innerText = "Abertura";
+        }else if(selectOpcoesOpMorfologicos.value === "op7"){
+            tituloMatriz1.innerText = "Fechamento";
+        }else if(selectOpcoesOpMorfologicos.value === "op8"){
+            tituloMatriz1.innerText = "Gradiente";
+        }else if(selectOpcoesOpMorfologicos.value === "op9"){
+            tituloMatriz1.innerText = "Top Hat";
+        }else if(selectOpcoesOpMorfologicos.value === "op10"){
+            tituloMatriz1.innerText = "Bottom Hat";
+        }
+       
+    }
+
+});
+
+
 // ouvinte para quando o botão for clicado, o valor seja setado na matriz
 btnSetarHBNaMatriz.addEventListener('click', function(){
     celula11.value = EntradaValorHB.value;
@@ -360,11 +427,55 @@ btnMostrarHistograma.addEventListener('click', function(){
 
 });
 
-
-
-
-
 //
 btnFecharHistograma.addEventListener('click', function(){
     document.getElementById('divParteHistrograma').style.display = 'none';
+});
+
+// Ouvinte para aplicar os filtros
+btnAplicarOpMorfologicos.addEventListener('click', function(){
+    //Como pode haver modificações feitas pelo o usuário, então é mais prudente pegar os valores que foi mostrado para o usuário
+    //Se pegar diretamente do filtro pode não ser o resultado esperado pelo o usuário, uma vez que possa ter mudado o valor do filtro.
+    let filtroAtualizado = [
+        [celula00.value, celula01.value, celula02.value],
+        [celula10.value, celula11.value, celula12.value],
+        [celula20.value, celula21.value, celula22.value]
+    ];
+
+    let matrizModificada = [];
+    let largura = canvasImgFiltrada.width;
+    let altura = canvasImgFiltrada.height;
+    canvasFiltro.clearRect(0, 0, largura, altura);
+    console.log("opcaoOpMorfologicos", opcaoOpMorfologicos)
+
+    if(opcaoOpMorfologicos === "op2"){
+        matrizModificada = opMorfologicas.grayErosion(matrizBase, filtroAtualizado)        
+    }else if(opcaoOpMorfologicos === "op3"){
+        matrizModificada = opMorfologicas.grayDilation(matrizBase, filtroAtualizado)        
+    }else if(opcaoOpMorfologicos === "op4"){
+        matrizModificada = opMorfologicas.binaryErosion(matrizBase, filtroAtualizado)        
+    } else if(opcaoOpMorfologicos === "op5"){
+        matrizModificada = opMorfologicas.binaryDilation(matrizBase, filtroAtualizado)        
+    } else if(opcaoOpMorfologicos === "op6"){
+        matrizModificada = opMorfologicas.binaryOpening(matrizBase, filtroAtualizado)        
+    } else if(opcaoOpMorfologicos === "op7"){
+        matrizModificada = opMorfologicas.binaryClosing(matrizBase, filtroAtualizado)        
+    } else if(opcaoOpMorfologicos === "op8"){
+        matrizModificada = opMorfologicas.binaryGradient(matrizBase, filtroAtualizado)        
+    } else if(opcaoOpMorfologicos === "op9"){
+        matrizModificada = opMorfologicas.binaryTopHat(matrizBase, filtroAtualizado)        
+    } else if(opcaoOpMorfologicos === "op10"){
+        matrizModificada = opMorfologicas.binaryBottomHat(matrizBase, filtroAtualizado)        
+    }    
+    console.log("matrizModificada", matrizModificada)
+    canvasFiltro.clearRect(0, 0, largura, altura);
+
+    //Aplicar o truncamento ou normalização
+    if(radioTruncamento.checked){
+        matrizModificada = truncarValores(matrizModificada);
+    }
+    else{
+        matrizModificada = normalizarValores(matrizModificada);
+    }
+    renderizarPGMNoCanvas(dadosPGM, matrizModificada, canvasImgFiltrada);
 });
