@@ -4,7 +4,45 @@ export const matrizBase = [
     [0, 0, 0]
 ];
 
+export var final = []; 
+
+export function pegarMediaImagem(image){
+    const altura = image.length;
+    const largura = image[0].length;
+   
+    let somatorioImagem = 0;
+    let quatidadePixels = altura * largura;
+
+
+    for(let i = 0; i < altura; i++){
+        for(let j = 0; j < largura; j++){
+            somatorioImagem += image[i][j];
+        }        
+    }
+
+
+    const media = somatorioImagem/quatidadePixels;
+
+
+    for(let i = 0; i < altura; i++){
+        for(let j = 0; j < largura; j++){
+
+
+            if(image[i][j] >= media){
+                image[i][j] = 255;
+            }else {
+                image[i][j] = 0;                
+            }
+        }        
+    }
+
+
+    return image;
+}
+
 export function grayErosion(image, mascara) {
+
+    image = pegarMediaImagem(image);
 
     console.log("image", image);
     console.log("mascara", mascara);
@@ -41,6 +79,9 @@ export function grayErosion(image, mascara) {
 }
 
 export function grayDilation(image, mascara) {
+
+    image = pegarMediaImagem(image);
+
     const result = []
 
     const base = image
@@ -70,6 +111,12 @@ export function grayDilation(image, mascara) {
     }
 
     return result;
+}
+
+async function esperarDezSegundos() {
+    return new Promise(resolve => {
+        setTimeout(resolve, 10000); // 10000 milissegundos = 10 segundos
+    });
 }
 
 
@@ -128,13 +175,18 @@ export function binaryErosion(image, mascara) {
             }
         }
     }
-
+    // console.log("Esperando 10 segundos...");
+    // await esperarDezSegundos();
+    // console.log("10 segundos se passaram!");
     return result;
+    
 }
 
 export function binaryDilation(image, mascara) {
-    
-    const base = image
+
+    image = pegarMediaImagem(image);
+   
+    const base = image;
     const n = image.length;
     const m = image[0].length;
 
@@ -149,7 +201,7 @@ export function binaryDilation(image, mascara) {
                         const col = j + l;
 
                         if (row >= 0 && row < n && col >= 0 && col < m && mascara[k + 1][l + 1] == 0) {
-                            result[row][col] = mascara[k + 1][l + 1]
+                            result[row][col] = mascara[k + 1][l + 1];
                         }
                     }
                 }

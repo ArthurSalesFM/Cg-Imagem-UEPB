@@ -407,6 +407,27 @@ input[type="file"]{
     background-color: white;
 }
 
+.imagemBinaria {
+    /* height: 90%; */
+    /* width: 35%; */
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--cor-de-borda);
+    background-color: var(--cor-de-fundo);
+    box-shadow: 10px 10px 10px 0px var(--cor-de-sombra);
+    border-radius: 10px;
+}
+
+.imagemBinaria canvas {
+    padding: 0;
+    margin: auto;
+    margin-top: 2.5%;
+    display: block;
+    /* width: 95%; */
+    height: 95%;
+    background-color: white;
+}
+
 /* ------------------------------------- BOTÃO DA APLICAÇÃO DOS FILTROS(btnAplicarFilto) ------------------------------------- */
 
 .botaoAplicar, .botaoAplicarOp{
@@ -527,6 +548,13 @@ input[type="file"]{
     background-color:  rgba(255, 0, 0, 1);
     border: 1px solid var(--cor-de-borda);
     font-weight: bold;
+}
+
+.imagens{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
 /*Canvas das imagens do histograma*/

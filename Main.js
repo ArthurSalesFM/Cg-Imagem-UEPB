@@ -17,6 +17,7 @@ const divImagemImportadaFiltro = document.querySelector('.imagemImportadaFiltro'
 const divBotaoAplicar = document.querySelector('.botaoAplicar');
 const divBotaoAplicarOp = document.querySelector('.botaoAplicarOp');
 const divImagemFiltradaFiltro = document.querySelector(".imagemFiltradaFiltro");
+const divImagemBinaria = document.querySelector('.imagemBinaria');
 const divMatriz2 = document.querySelector(".matriz2");
 
 const divOpcaoOpMorfologicos = document.querySelector('.opcaoOpMorfologicos');
@@ -65,12 +66,19 @@ const canvaDaImagemPrincipalFiltros = document.getElementById('canvasImgImport')
 var canvasCtx = canvaDaImagemPrincipalFiltros.getContext('2d');
 const canvasImgFiltrada = document.getElementById('canvasImgFiltrada'); // Canvas onde será mostrado a nova imagem após filtro
 var canvasFiltro = canvasImgFiltrada.getContext('2d');
+const canvasImgBinaria = document.getElementById('canvasImgBinImport'); // Canvas onde será mostrado a nova imagem após filtro
+var canvasBin = canvasImgBinaria.getContext('2d');
 
 //Variáveis
 var opcaoDeFiltro; // Variável criada para armazenar o tipo de filtro escolhido, para não precisar criar outra função do select
 var dadosPGM; // Responsável por receber os dados ma imagem tratados.
 var matrizBase; // Matriz criada para ter apenas os valores que serão processados
 let opcaoOpMorfologicos; // Variável criada para armazenar o tipo de mascara escolhido, para não precisar criar outra função do select
+
+function gerarImagemBin(imagem){
+    const imgBin = opMorfologicas.pegarMediaImagem(imagem);
+    renderizarPGMNoCanvas(dadosPGM, imgBin, canvasImgBinaria); // Renderiza a imagem PGM no canvas usando a matriz
+}
 
 //Função para habilitar e desabilitar os componentes da tela
 function habilitaDesabilitaInputeAplicacaoDoFiltro( valor){
@@ -110,6 +118,7 @@ function ativaDivsOpMorfologicos(mostrar){
     divInfoOpMorfologicos.style.display = mostrar ? 'block' : 'none';
     divImagemImportadaFiltro.style.display = mostrar  ? 'block' : 'none';
     divImagemFiltradaFiltro.style.display = mostrar  ? 'block' : 'none';
+    divImagemBinaria.style.display = mostrar  ? 'block' : 'none';
     divBotaoAplicar.style.display = mostrar ? "block" : "none";
 }
 
@@ -190,6 +199,10 @@ opcaoDeProcessamento.addEventListener('change', function(){
     }else if (opcaoDeProcessamento.value === 'opcaoP3') {
         ativaDivsOpMorfologicos(true);
         habilitaDesabilitaInputeAplicacaoDoFiltro(true);
+        const largura = canvasImgFiltrada.width;
+        const altura = canvasImgFiltrada.height;
+        canvasBin.clearRect(0, 0, largura, altura);
+        gerarImagemBin(matrizBase);
     }else {
         alert('Falta IMPLEMENTAR....');
     }
@@ -325,7 +338,6 @@ selectOpcoesOpMorfologicos.addEventListener('change', function(){
         opcaoOpMorfologicos = selectOpcoesOpMorfologicos.value;
         divMatriz2.style.display = 'none';
 
-        console.log("selectOpcoesOpMorfologicos.value", selectOpcoesOpMorfologicos.value)
         setValoresDosFiltrosNosInputsM1(opMorfologicas.matrizBase);
 
         if(selectOpcoesOpMorfologicos.value === "op2"){
@@ -446,28 +458,26 @@ btnAplicarOpMorfologicos.addEventListener('click', function(){
     let largura = canvasImgFiltrada.width;
     let altura = canvasImgFiltrada.height;
     canvasFiltro.clearRect(0, 0, largura, altura);
-    console.log("opcaoOpMorfologicos", opcaoOpMorfologicos)
 
     if(opcaoOpMorfologicos === "op2"){
-        matrizModificada = opMorfologicas.grayErosion(matrizBase, filtroAtualizado)        
+        matrizModificada = opMorfologicas.grayErosion(matrizBase, filtroAtualizado);      
     }else if(opcaoOpMorfologicos === "op3"){
-        matrizModificada = opMorfologicas.grayDilation(matrizBase, filtroAtualizado)        
+        matrizModificada = opMorfologicas.grayDilation(matrizBase, filtroAtualizado);      
     }else if(opcaoOpMorfologicos === "op4"){
-        matrizModificada = opMorfologicas.binaryErosion(matrizBase, filtroAtualizado)        
+        matrizModificada = opMorfologicas.binaryErosion(matrizBase, filtroAtualizado);
     } else if(opcaoOpMorfologicos === "op5"){
-        matrizModificada = opMorfologicas.binaryDilation(matrizBase, filtroAtualizado)        
+        matrizModificada = opMorfologicas.binaryDilation(matrizBase, filtroAtualizado);        
     } else if(opcaoOpMorfologicos === "op6"){
-        matrizModificada = opMorfologicas.binaryOpening(matrizBase, filtroAtualizado)        
+        matrizModificada = opMorfologicas.binaryOpening(matrizBase, filtroAtualizado);      
     } else if(opcaoOpMorfologicos === "op7"){
-        matrizModificada = opMorfologicas.binaryClosing(matrizBase, filtroAtualizado)        
+        matrizModificada = opMorfologicas.binaryClosing(matrizBase, filtroAtualizado);       
     } else if(opcaoOpMorfologicos === "op8"){
-        matrizModificada = opMorfologicas.binaryGradient(matrizBase, filtroAtualizado)        
+        matrizModificada = opMorfologicas.binaryGradient(matrizBase, filtroAtualizado);        
     } else if(opcaoOpMorfologicos === "op9"){
-        matrizModificada = opMorfologicas.binaryTopHat(matrizBase, filtroAtualizado)        
+        matrizModificada = opMorfologicas.binaryTopHat(matrizBase, filtroAtualizado);     
     } else if(opcaoOpMorfologicos === "op10"){
-        matrizModificada = opMorfologicas.binaryBottomHat(matrizBase, filtroAtualizado)        
-    }    
-    console.log("matrizModificada", matrizModificada)
+        matrizModificada = opMorfologicas.binaryBottomHat(matrizBase, filtroAtualizado);        
+    }
     canvasFiltro.clearRect(0, 0, largura, altura);
 
     //Aplicar o truncamento ou normalização
