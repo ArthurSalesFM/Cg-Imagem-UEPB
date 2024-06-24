@@ -200,7 +200,7 @@ input[type="file"]{
 
 /* ------------------------------------- DIV(opcaoFiltro) ------------------------------------- */
 
-.opcaoFiltro, .opcaoOpMorfologicos{
+.opcaoFiltro, .opcaoOpMorfologicos, .opcaoTransImagem{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -213,7 +213,7 @@ input[type="file"]{
     box-shadow: 10px 10px 0px 0px var(--cor-de-sombra);
 }
 
-.opcaoFiltro, .opcaoOpMorfologicos label {
+.opcaoFiltro, .opcaoOpMorfologicos, .opcaoTransImagem label {
     margin-top: 20px;
     font-size: 20px;
     color: var(--cor-de-textos);

@@ -58,7 +58,8 @@
                     <option value="opcaoP1">Filtros</option>
                     <option value="opcaoP2">Histograma</option>
                     <option value="opcaoP3">Operadores Morfológicos</option>
-                    <option value="opcaoP4">etc....</option>
+                    <option value="opcaoP4">Transformações</option>
+                    <option value="opcaoP5">etc....</option>
                 </select>
 
             </div>
@@ -114,6 +115,61 @@
                     <option value="op9">Top Hat</option>
                     <option value="op10">Bottom Hat</option>
                 </select>
+
+            </div>
+
+            <!-- Parte relacionada a seleção do tipo de filtro que irá ser aplicado na imagem -->
+            <div class="opcaoTransImagem" style="display: none;">
+
+                <label for="transformacoes">Escolha uma opção</label>
+                <select id="transformacoes" name="transformacoes">
+                    <option value="opcao1">.............</option>
+                    <option value="trans1">Negativo</option>
+                    <option value="trans2">Gama</option>
+                    <option value="trans3">Logaritmo</option>
+                    <option value="trans4">Intensidade Geral</option>
+                    <option value="trans5">Faixa Dinâmica</option>
+                    <option value="trans6">Linear</option>
+                </select>
+
+                <!-- Botão para aplicar o filtro escolhido -->
+                <div class="botaoAplicar" style="display: none;">
+                    <button id="aplicarTrans" class="btnAplicarFilto">Aplicar..</button>
+                </div>
+
+                <div class="botaoAplicar" style="display: none;" id="gamaInput">
+                    <p>Defina o valor de Gama</p>
+                    <input type="number" class="celula" id="gama" value="0">
+                </div>
+
+                <div class="botaoAplicar" style="display: none;" id="logInput">
+                    <p>Defina o valor de A</p>
+                    <input type="number" class="celula" id="log" value="0">
+                </div>
+
+                <div class="botaoAplicar" style="display: none;" id="intensidadeGeralInput">
+                    <p>Defina o valor de W</p>
+                    <input type="number" class="celula" id="intGW" value="0">
+                    <br/>
+                    <p>Defina o valor de A</p>
+                    <input type="number" class="celula" id="intGA" value="0">
+                </div>
+
+                <div class="botaoAplicar" style="display: none;" id="faixaDinamicaInput">
+                    <p>Defina o valor Minimo</p>
+                    <input type="number" class="celula" id="fxDiMin" value="0">
+                    <br/>
+                    <p>Defina o valor Maximo</p>
+                    <input type="number" class="celula" id="fxDiMax" value="0">
+                </div>
+
+                <div class="botaoAplicar" style="display: none;" id="linearInput">
+                    <p>Defina o valor de A</p>
+                    <input type="number" class="celula" id="linearA" value="0">
+                    <br/>
+                    <p>Defina o valor de B</p>
+                    <input type="number" class="celula" id="linearB" value="0">
+                </div>
 
             </div>
 
@@ -208,7 +264,7 @@
 
                 <!-- Botão para aplicar o filtro escolhido -->
                 <div class="botaoAplicar" style="display: none;">
-                    <button id="aplicarFlitro" class="btnAplicarFilto">Aplicar..</button>                    
+                    <button id="aplicarFlitro" class="btnAplicarFilto">Aplicar..</button>
                 </div>
 
                 <!--
@@ -220,42 +276,77 @@
 
             <!-- Parte referente a informação do filtro escolhido -->
             <div class="infoOpMorfologicos" style="display: none;">
-                <h4>Oper. Morfológicos</h4>                
+                <h4>Oper. Morfológicos</h4>
+
+                <div class="matriz1">
+                    <h6 id="matriz1">Mascara</h6>
+                    <div class="matriz">
+                        <div class="linha">
+                            <input type="number" class="celula" id="celulaOp00" value="0">
+                            <input type="number" class="celula" id="celulaOp01" value="0">
+                            <input type="number" class="celula" id="celulaOp02" value="0">
+                        </div>
+                        <div class="linha">
+                            <input type="number" class="celula" id="celulaOp10" value="0">
+                            <input type="number" class="celula" id="celulaOp11" value="0">
+                            <input type="number" class="celula" id="celulaOp12" value="0">
+                        </div>
+                        <div class="linha">
+                            <input type="number" class="celula" id="celulaOp20" value="0">
+                            <input type="number" class="celula" id="celulaOp21" value="0">
+                            <input type="number" class="celula" id="celulaOp22" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="matriz2" style="display: none;">
+                    <h6 id="matriz2">Mascara</h6>
+                    <div class="matriz">
+                        <div class="linha">
+                            <input type="number" class="celula" id="2celulaOp00" value="0">
+                            <input type="number" class="celula" id="2celulaOp01" value="0">
+                            <input type="number" class="celula" id="2celulaOp02" value="0">
+                        </div>
+                        <div class="linha">
+                            <input type="number" class="celula" id="2celulaOp10" value="0">
+                            <input type="number" class="celula" id="2celulaOp11" value="0">
+                            <input type="number" class="celula" id="2celulaOp12" value="0">
+                        </div>
+                        <div class="linha">
+                            <input type="number" class="celula" id="2celulaOp20" value="0">
+                            <input type="number" class="celula" id="2celulaOp21" value="0">
+                            <input type="number" class="celula" id="2celulaOp22" value="0">
+                        </div>
+                    </div>
+                </div> -->
 
                 <!-- opcao de ajuste de pixel -->
                 <div class="ajusteDePixel">
-                    <input type="radio" id="radio1" name="ajusteDePixel" checked>
+                    <!-- <input type="radio" id="radio1" name="ajusteDePixel" checked>
                     <label for="radio1">Truncar</label>
 
                     <input type="radio" id="radio2" name="ajusteDePixel">
-                    <label for="radio2">Normalizar</label>
+                    <label for="radio2">Normalizar</label> -->
 
                     <button id="aplicarOpMorfologicos" class="btnAplicarFilto">Aplicar</button>
-
                 </div>
-
-                <!-- Botão para aplicar o filtro escolhido -->
-                <div class="botaoAplicarOp" style="display: none;">
-                    
-                </div>
-
             </div>
 
 
             <!-- Canvas referente a imagem com o filtro aplicado -->
             <div class="imagemFiltradaFiltro" style="display: none;">
-                
+
                 <div class="processoMorfologicos1">
-                    <canvas id="canvasImgFiltrada" width="256px" height="256px" ></canvas>
-                    <canvas id="canvasImgFiltrada2" width="256px" height="256px" style="display: none;"></canvas>                                       
+                    <canvas id="canvasImgFiltrada" width="256px" height="256px"></canvas>
+                    <canvas id="canvasImgFiltrada2" width="256px" height="256px" style="display: none;"></canvas>
                 </div>
-                
-                <div class="processoMorfologicos2" >
-                    <canvas id="canvasImgFiltrada3" width="256px" height="256px" style="display: none;" ></canvas> 
+
+                <div class="processoMorfologicos2">
+                    <canvas id="canvasImgFiltrada3" width="256px" height="256px" style="display: none;"></canvas>
                     <canvas id="canvasImgFiltrada4" width="256px" height="256px" style="display: none;"></canvas>
-                                                        
-                </div>               
-                
+
+                </div>
+
             </div>
 
             <!-- **************************************** PARA OS HISTOGRAMAS **************************************** -->
@@ -264,13 +355,15 @@
 
                 <div class="divParteHistrograma_Saidas">
                     <canvas class="imagensDeSaida" id="imagemOriginalHist" width="256" height="256"></canvas>
-                    <canvas class="distribuicaoDeTons" id="histogramaDaImagemOriginal" width="256" height="256"></canvas>
+                    <canvas class="distribuicaoDeTons" id="histogramaDaImagemOriginal" width="256"
+                        height="256"></canvas>
                     <div id="parteDoDegradePretoBranco"></div>
                 </div>
 
                 <div class="divParteHistrograma_Saidas">
                     <canvas class="imagensDeSaida" id="imagemModificadaHist" width="256" height="256"></canvas>
-                    <canvas class="distribuicaoDeTons" id="histogramaDaImagemModificada" width="256" height="256"></canvas>
+                    <canvas class="distribuicaoDeTons" id="histogramaDaImagemModificada" width="256"
+                        height="256"></canvas>
                     <div id="parteDoDegradePretoBranco"></div>
                 </div>
 

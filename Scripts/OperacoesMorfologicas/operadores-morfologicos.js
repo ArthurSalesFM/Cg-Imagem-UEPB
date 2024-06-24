@@ -42,11 +42,6 @@ export function pegarMediaImagem(image){
 
 export function grayErosion(image, mascara) {
 
-    image = pegarMediaImagem(image);
-
-    console.log("image", image);
-    console.log("mascara", mascara);
-
     const result = []
 
     const base = image
@@ -79,8 +74,6 @@ export function grayErosion(image, mascara) {
 }
 
 export function grayDilation(image, mascara) {
-
-    image = pegarMediaImagem(image);
 
     const result = []
 
@@ -178,7 +171,8 @@ export function binaryErosion(image, mascara) {
     // console.log("Esperando 10 segundos...");
     // await esperarDezSegundos();
     // console.log("10 segundos se passaram!");
-    return result;
+    // return result;
+    console.log("10 segundos se passaram!", result) ;
     
 }
 
