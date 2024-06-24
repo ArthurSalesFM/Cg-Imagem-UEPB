@@ -2,6 +2,7 @@ import { Mediana } from "./filtros.js";
 
 // Função para somar duas matrizes pixel a pixel
 export function somaDeMatrizes(matrizA, matrizB){
+
     let matrizC = [];
 
     for(var linha = 0; linha < matrizA.length; linha++){
@@ -16,6 +17,7 @@ export function somaDeMatrizes(matrizA, matrizB){
 
 // Função para subtrair matrizes pixel a pixel
 export function subtracaoDeMatrizes(matrizA, matrizB){
+
     let matrizC = [];
 
     for(var linha = 0; linha < matrizA.length; linha++){
@@ -28,6 +30,77 @@ export function subtracaoDeMatrizes(matrizA, matrizB){
     return matrizC;
 }
 
+// Função para multiplicar matrizes pixel a pixel
+export function multiplicacaoDeMatrizes(matrizA, matrizB){
+
+    let matrizC = [];
+
+    for(var linha = 0; linha < matrizA.length; linha++){
+        var row = [];
+        for(var coluna = 0; coluna < matrizA[0].length; coluna++){
+            row.push(matrizA[linha][coluna] * matrizB[linha][coluna]);
+        }
+        matrizC.push(row);
+    }
+    return matrizC;
+}
+
+// Função para dividir matrizes pixel a pixel
+export function divisaoDeMatrizes(matrizA, matrizB){
+    
+    let matrizC = [];
+
+    for(var linha = 0; linha < matrizA.length; linha++){
+        var row = [];
+        for(var coluna = 0; coluna < matrizA[0].length; coluna++){
+            row.push(matrizA[linha][coluna] / matrizB[linha][coluna]);
+        }
+        matrizC.push(row);
+    }
+    return matrizC;
+}
+
+// Função para realizar opração binaria OR matrizes pixel a pixel
+export function combinacaoBinariaOR(matrizA, matrizB){
+    let matrizC = [];
+
+    for (var linha = 0; linha < matrizA.length; linha++) {
+        var row = [];
+        for (var coluna = 0; coluna < matrizA[0].length; coluna++) {
+            row.push(matrizA[linha][coluna] | matrizB[linha][coluna]);
+        }
+        matrizC.push(row);
+    }
+    return matrizC;
+}
+
+// Função para realizar opração binaria AND matrizes pixel a pixel
+export function combinacaoBinariaAND(matrizA, matrizB){
+    let matrizC = [];
+
+    for (var linha = 0; linha < matrizA.length; linha++) {
+        var row = [];
+        for (var coluna = 0; coluna < matrizA[0].length; coluna++) {
+            row.push(matrizA[linha][coluna] & matrizB[linha][coluna]);
+        }
+        matrizC.push(row);
+    }
+    return matrizC;
+}
+
+// Função para realizar opração binaria XOR matrizes pixel a pixel
+export function combinacaoBinariaXOR(matrizA, matrizB){
+    let matrizC = [];
+
+    for (var linha = 0; linha < matrizA.length; linha++) {
+        var row = [];
+        for (var coluna = 0; coluna < matrizA[0].length; coluna++) {
+            row.push(matrizA[linha][coluna] ^ matrizB[linha][coluna]);
+        }
+        matrizC.push(row);
+    }
+    return matrizC;
+}
 
 //Função que aplica o filtro da mediana com base na matriz da imagem, como se trata de um filtro baseado na imagem
 //o tratamento requer outra função pois os valores vem da própria imagem

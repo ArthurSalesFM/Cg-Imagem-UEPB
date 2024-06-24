@@ -103,11 +103,27 @@ body{
     box-shadow: 10px 10px 0px 0px var(--cor-de-sombra);
 }
 
+.importarParaOperacao{
+    margin-top: 30px;
+}
+
 input[type="file"]{
     display: none;
 }
 
 .importar label{
+    align-items: center;
+    text-transform: uppercase;
+    color: var(--cor-de-textos);
+    background-color: var(--cor-de-fundo2);
+    text-align: center;
+    padding: 8px 8px;
+    font-size: 13px;
+    border-radius: 30px;
+}
+
+.importarParaOperacao label{
+    align-items: center;
     text-transform: uppercase;
     color: var(--cor-de-textos);
     background-color: var(--cor-de-fundo2);
@@ -118,6 +134,13 @@ input[type="file"]{
 }
 
 .importar label:hover{
+    background-color: rgba(2,24,58,255);
+    font-weight: bold;
+    color: red;
+    box-shadow: 3px 3px 0px 0px var(--cor-de-sombra);
+}
+
+.importarParaOperacao label:hover{
     background-color: rgba(2,24,58,255);
     font-weight: bold;
     color: red;
@@ -358,7 +381,7 @@ input[type="file"]{
 }
 
 .ajusteDePixel input[type="radio"]{
-    margin-top: 5%;
+    margin-top: 20%;
     margin-bottom: 10%;
 }
 
@@ -391,10 +414,6 @@ input[type="file"]{
     /* width: 35%; */
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--cor-de-borda);
-    background-color: var(--cor-de-fundo);
-    box-shadow: 10px 10px 10px 0px var(--cor-de-sombra);
-    border-radius: 10px;
 }
 
 .imagemImportadaFiltro canvas {
@@ -412,10 +431,6 @@ input[type="file"]{
     /* width: 35%; */
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--cor-de-borda);
-    background-color: var(--cor-de-fundo);
-    box-shadow: 10px 10px 10px 0px var(--cor-de-sombra);
-    border-radius: 10px;
 }
 
 .imagemBinaria canvas {
@@ -436,6 +451,7 @@ input[type="file"]{
 }
 
 .btnAplicarFilto{
+    margin-top: 5px;
     background-color: var(--cor-de-fundo2);
     color: var(--cor-de-textos);
     padding: 5px 10px;
@@ -464,23 +480,55 @@ input[type="file"]{
 /* ------------------------------------- DIV IMAGEM FILTRADA(imagemFiltrada) ------------------------------------- */
 
 .imagemFiltradaFiltro{
-    /* height: 90%; */
-    /* width: 35%; */
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--cor-de-borda);
-    background-color: var(--cor-de-fundo);
-    box-shadow: 10px 10px 10px 0px var(--cor-de-sombra);
-    border-radius: 10px;
+    margin-right: 5px;
+    width: 50%;   /* 30% da largura do elemento pai */
+    height: 95%;  /* 90% da altura do elemento pai */
+    
 }
 
 .imagemFiltradaFiltro canvas {
     padding: 0;
     margin: auto;
     margin-top: 2.5%;
-    display: block;
+    
     /* width: 95%; */
     /* height: 95%; */
+    background-color: white;
+}
+
+.processoMorfologicos1  {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.processoMorfologicos1 canvas {
+    padding: 0;
+    margin: auto;
+    margin-top: 2.5%;
+    /* width: 95%; */
+    height: 95%;
+    background-color: white;
+}
+
+.processoMorfologicos2{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.processoMorfologicos2 canvas {
+    padding: 0;
+    margin: auto;
+    margin-top: 2.5%;
+    display: flex;
+    /* width: 95%; */
+    height: 95%;
     background-color: white;
 }
 
@@ -554,7 +602,14 @@ input[type="file"]{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    margin-left: 5px;
+    width: 20%;   /* 30% da largura do elemento pai */
+    height: 95%;  /* 90% da altura do elemento pai */
+    /*border: 1px solid var(--cor-de-borda);
+    background-color: transparent   ;
+    box-shadow: 10px 10px 10px 0px var(--cor-de-sombra);
+    border-radius: 5px;*/
 }
 
 /*Canvas das imagens do histograma*/

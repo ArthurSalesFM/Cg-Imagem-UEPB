@@ -70,23 +70,30 @@
 
                 <label for="opcoes">Escolha uma opção</label>
                 <select id="opcoes" name="opcoes">
-                    <option value="opcao1">.............</option>
-                    <option value="opcao2">Média</option>
-                    <option value="opcao3">Mediana</option>
-                    <option value="opcao4">Passa Alta Básica</option>
-                    <option value="opcao5">Roberts em X</option>
-                    <option value="opcao6">Roberts em Y</option>
-                    <option value="opcao7">Roberts em X - Y</option>
-                    <option value="opcao8">Roberts Cruzado em X</option>
-                    <option value="opcao9">Roberts Cruzado em Y</option>
-                    <option value="opcao10">Roberts Cruzado em X - Y</option>
-                    <option value="opcao11">Prewitt em X</option>
-                    <option value="opcao12">Prewitt em Y</option>
-                    <option value="opcao13">Prewitt em X - Y</option>
-                    <option value="opcao14">Auto Reforço HB</option>
-                    <option value="opcao15">Sobel em X</option>
-                    <option value="opcao16">Sobel em Y</option>
-                    <option value="opcao17">Sobel em X - Y</option>
+                    <option value="opcao1">1º - .............</option>
+                    <option value="opcao2">2º - Média</option>
+                    <option value="opcao3">3º - Mediana</option>
+                    <option value="opcao4">4º - Passa Alta Básica</option>
+                    <option value="opcao5">5º - Roberts em X</option>
+                    <option value="opcao6">6º - Roberts em Y</option>
+                    <option value="opcao7">7º - Roberts em X + Y</option>
+                    <option value="opcao8">8º - Roberts Cruzado em X</option>
+                    <option value="opcao9">9º - Roberts Cruzado em Y</option>
+                    <option value="opcao10">10º - Roberts Cruzado em X + Y</option>
+                    <option value="opcao11">11º - Prewitt em X</option>
+                    <option value="opcao12">12º - Prewitt em Y</option>
+                    <option value="opcao13">13º - Prewitt em X + Y</option>
+                    <option value="opcao14">14º - Auto Reforço HB</option>
+                    <option value="opcao15">15º - Sobel em X</option>
+                    <option value="opcao16">16º - Sobel em Y</option>
+                    <option value="opcao17">17º - Sobel em X + Y</option>
+                    <option value="opcao18">18º - Soma. + . de Imagens</option>
+                    <option value="opcao19">19º - Subt. - . de Imagens</option>
+                    <option value="opcao20">20º - Mult. * . de Imagens</option>
+                    <option value="opcao21">21º - Divi. / . de Imagens</option>
+                    <option value="opcao22">22º - Oper. OR Binário</option>
+                    <option value="opcao23">23º - Oper. AND Binário</option>
+                    <option value="opcao24">24º - Oper. XOR Binário</option>
                 </select>
 
             </div>
@@ -121,17 +128,23 @@
 
             <!-- **************************************** PARA DOS FILTROS **************************************** -->
 
-           <div class="imagens">
-            <!-- Canvas referente a imagem importada do usuário -->
-            <div class="imagemImportadaFiltro" style="display: none;">
-                <canvas id="canvasImgImport"></canvas>
-            </div>
+            <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+            <div class="imagens">
+                <!-- Canvas referente a imagem importada do usuário -->
+                <div class="imagemImportadaFiltro" style="display: none;">
+                    <canvas id="canvasImgImport" width="256px" height="256px"></canvas>
+                </div>
 
-            <!-- Canvas referente a imagem importada do usuário -->
-            <div class="imagemBinaria" style="display: none;">
-                <canvas id="canvasImgBinImport"></canvas>
+                <div class="importarParaOperacao" style="display: none;">
+                    <label for="imagemInputOperacoesB">Selecione uma imagem</label>
+                    <input type="file" id="imagemInputOperacoesB" accept=".pgm" />
+                </div>
+
+                <!-- Canvas referente a imagem importada do usuário -->
+                <div class="imagemBinaria" style="display: none;">
+                    <canvas id="canvasImgBinImport" width="256px" height="256px"></canvas>
+                </div>
             </div>
-           </div>
 
             <!-- Parte referente a informação do filtro escolhido -->
             <div class="infoFiltro" style="display: none;">
@@ -179,7 +192,6 @@
                     </div>
                 </div>
 
-
                 <div class="valorParaFiltroHB" style="display: none;">
                     <input type="number" id="valorHB" value="0">
                     <button id="setarHBNaMatriz">Valor W</button>
@@ -196,60 +208,19 @@
 
                 <!-- Botão para aplicar o filtro escolhido -->
                 <div class="botaoAplicar" style="display: none;">
-                    <button id="aplicarFlitro" class="btnAplicarFilto">Aplicar</button>
+                    <button id="aplicarFlitro" class="btnAplicarFilto">Aplicar..</button>                    
                 </div>
 
+                <!--
                 <div class="btnMostrarHistograma">
                     <button id="mostrarHistograma" class="btnAplicarFilto">Histograma</button>
                 </div>
-
+                -->
             </div>
 
             <!-- Parte referente a informação do filtro escolhido -->
             <div class="infoOpMorfologicos" style="display: none;">
-                <h4>Mascaras</h4>
-
-                <div class="matriz1">
-                    <h6 id="matriz1">Filtro</h6>
-                    <div class="matriz">
-                        <div class="linha">
-                            <input type="number" class="celula" id="celula00" value="0">
-                            <input type="number" class="celula" id="celula01" value="0">
-                            <input type="number" class="celula" id="celula02" value="0">
-                        </div>
-                        <div class="linha">
-                            <input type="number" class="celula" id="celula10" value="0">
-                            <input type="number" class="celula" id="celula11" value="0">
-                            <input type="number" class="celula" id="celula12" value="0">
-                        </div>
-                        <div class="linha">
-                            <input type="number" class="celula" id="celula20" value="0">
-                            <input type="number" class="celula" id="celula21" value="0">
-                            <input type="number" class="celula" id="celula22" value="0">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="matriz2" style="display: none;">
-                    <h6 id="matriz2">Mascara</h6>
-                    <div class="matriz">
-                        <div class="linha">
-                            <input type="number" class="celula" id="2celula00" value="0">
-                            <input type="number" class="celula" id="2celula01" value="0">
-                            <input type="number" class="celula" id="2celula02" value="0">
-                        </div>
-                        <div class="linha">
-                            <input type="number" class="celula" id="2celula10" value="0">
-                            <input type="number" class="celula" id="2celula11" value="0">
-                            <input type="number" class="celula" id="2celula12" value="0">
-                        </div>
-                        <div class="linha">
-                            <input type="number" class="celula" id="2celula20" value="0">
-                            <input type="number" class="celula" id="2celula21" value="0">
-                            <input type="number" class="celula" id="2celula22" value="0">
-                        </div>
-                    </div>
-                </div>
+                <h4>Oper. Morfológicos</h4>                
 
                 <!-- opcao de ajuste de pixel -->
                 <div class="ajusteDePixel">
@@ -265,6 +236,7 @@
 
                 <!-- Botão para aplicar o filtro escolhido -->
                 <div class="botaoAplicarOp" style="display: none;">
+                    
                 </div>
 
             </div>
@@ -272,7 +244,18 @@
 
             <!-- Canvas referente a imagem com o filtro aplicado -->
             <div class="imagemFiltradaFiltro" style="display: none;">
-                <canvas id="canvasImgFiltrada"></canvas>
+                
+                <div class="processoMorfologicos1">
+                    <canvas id="canvasImgFiltrada" width="256px" height="256px" ></canvas>
+                    <canvas id="canvasImgFiltrada2" width="256px" height="256px" style="display: none;"></canvas>                                       
+                </div>
+                
+                <div class="processoMorfologicos2" >
+                    <canvas id="canvasImgFiltrada3" width="256px" height="256px" style="display: none;" ></canvas> 
+                    <canvas id="canvasImgFiltrada4" width="256px" height="256px" style="display: none;"></canvas>
+                                                        
+                </div>               
+                
             </div>
 
             <!-- **************************************** PARA OS HISTOGRAMAS **************************************** -->
@@ -280,14 +263,14 @@
             <div class="divParteHistrograma" id="divParteHistrograma" style="display: none;">
 
                 <div class="divParteHistrograma_Saidas">
-                    <canvas class="imagensDeSaida" id="imagemOriginalHist"></canvas>
-                    <canvas class="distribuicaoDeTons" id="histogramaDaImagemOriginal"></canvas>
+                    <canvas class="imagensDeSaida" id="imagemOriginalHist" width="256" height="256"></canvas>
+                    <canvas class="distribuicaoDeTons" id="histogramaDaImagemOriginal" width="256" height="256"></canvas>
                     <div id="parteDoDegradePretoBranco"></div>
                 </div>
 
                 <div class="divParteHistrograma_Saidas">
-                    <canvas class="imagensDeSaida" id="imagemModificadaHist"></canvas>
-                    <canvas class="distribuicaoDeTons" id="histogramaDaImagemModificada"></canvas>
+                    <canvas class="imagensDeSaida" id="imagemModificadaHist" width="256" height="256"></canvas>
+                    <canvas class="distribuicaoDeTons" id="histogramaDaImagemModificada" width="256" height="256"></canvas>
                     <div id="parteDoDegradePretoBranco"></div>
                 </div>
 
