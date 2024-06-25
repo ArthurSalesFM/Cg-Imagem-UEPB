@@ -287,42 +287,9 @@ function abrirOutraImagem() {
     document.getElementById('imagemInputOperacoesB').addEventListener('change', lidarComUploadDeArquivo2);
 }
 
-/*
-function lidarComUploadDeArquivo2(evento){
-    evento.target.files[0];
-    const arquivo = evento.target.files[0]; // Obtém o primeiro arquivo selecionado
-    radioTruncamento.checked = true;         
-
-    if(arquivo){
-        divOpcaoDeProcesso.style.display = "block";
-        ativaDivsDeFiltro(true);
-        habilitaDesabilitaInputeAplicacaoDoFiltro(true);
-        
-        if(divOpcaoOpMorfologicos.style.display === "block"){
-            ativaDivsOpMorfologicos(false);
-        }
-
-        let largura2 = canvasImgBinaria.width;
-        let altura2 = canvasImgBinaria.height;
-        canvasBin.clearRect(0, 0, largura2, altura2);
-        matrizBase2 = []; 
-        const leitor = new FileReader(); // Cria uma nova instância do FileReader para ler o arquivo
-        leitor.onload = function(e) { // Define uma função que será chamada quando a leitura do arquivo estiver completa
-            const texto = e.target.result; // Obtém o conteúdo do arquivo como texto
-            dadosPGM = analisarPGM(texto); // Analisa o conteúdo do arquivo PGM e extrai os dados da imagem                       
-            matrizBase2 = criarMatriz(dadosPGM); // Cria a matriz de 256x256 com os valores dos pixels
-            canvasBin.clearRect(0, 0, largura2, altura2);
-            renderizarPGMNoCanvas(dadosPGM, matrizBase2, canvasImgBinaria); // Renderiza a imagem PGM no canvas usando a matriz
-        };
-        leitor.readAsText(arquivo); // Inicia a leitura do conteúdo do arquivo como texto
-    }
-    divImagemBinaria.style.display = "block";
-    divImportarParaOperacao.style.display = "none";
-    btnAplicarFlitro.disabled = false;
-
-}*/
-
 // Função para lidar com o upload do arquivo
+
+
 function lidarComUploadDeArquivo(evento) {
     const arquivo = evento.target.files[0]; // Obtém o primeiro arquivo selecionado
     radioTruncamento.checked = true;
@@ -767,9 +734,6 @@ btnAplicarFlitro.addEventListener('click', function () {
         ativaDesativaDivImportImagemSecundaria(false);
         matrizModificada = aplicar.combinacaoBinariaXOR(matrizBase, matrizBase2);
     }
-
-
-
 
     //Aplicar o truncamento ou normalização
     if (radioTruncamento.checked) {

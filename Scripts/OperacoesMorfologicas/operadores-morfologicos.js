@@ -13,36 +13,35 @@ export var final = [];
 
 export function pegarMediaImagem(image){
     const altura = image.length;
-    const largura = image[0].length;
-   
+    const largura = image[0].length;   
     let somatorioImagem = 0;
     let quatidadePixels = altura * largura;
-
 
     for(let i = 0; i < altura; i++){
         for(let j = 0; j < largura; j++){
             somatorioImagem += image[i][j];
         }        
     }
-
-
     const media = somatorioImagem/quatidadePixels;
 
+    let matrizResultado = [];
 
     for(let i = 0; i < altura; i++){
+        var row = [];
+
         for(let j = 0; j < largura; j++){
-
-
             if(image[i][j] >= media){
-                image[i][j] = 255;
-            }else {
-                image[i][j] = 0;                
+                //matrizResultado[i][j] = 255;
+                row.push(255);
             }
-        }        
+            else {
+                //matrizResultado[i][j] = 0;
+                row.push(0);                
+            }
+        }
+        matrizResultado.push(row);        
     }
-
-
-    return image;
+    return matrizResultado;
 }
 
 export function grayErosion(image, mascara) {
@@ -183,9 +182,9 @@ export function binaryErosion(image, mascara) {
 
 export function binaryDilation(image, mascara) {
 
-    image = pegarMediaImagem(image);
+    let imageResultado = pegarMediaImagem(image);
    
-    const base = image;
+    const base = imageResultado;
     const n = image.length;
     const m = image[0].length;
 
