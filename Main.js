@@ -44,6 +44,7 @@ const inputLog = document.getElementById('logInput');
 const inputIntGeral = document.getElementById('intensidadeGeralInput');
 const inputFxDin = document.getElementById('faixaDinamicaInput');
 const inputLinear = document.getElementById('linearInput');
+const radioIsBinary = document.getElementById('isBinary');
 
 let ultimaImagemCarregada = null;
 
@@ -363,13 +364,15 @@ opcaoDeProcessamento.addEventListener('change', function () {
     ativaDivsDeFiltro(false);
     habilitaDesabilitaInputeAplicacaoDoFiltro(false);
     ativaDivsOpMorfologicos(false);
-    habilitaDesabilitaInputeAplicacaoDoFiltro(false);
+    habilitaDesabilitaInputeAplicacaoDoOp(false);
     limpaCanvasSaidas();
+    ativaDivsTransformacoes(false);
 
     if (opcaoDeProcessamento.value === "opcaoP1") {
         ativaDivsDeFiltro(true);
         habilitaDesabilitaInputeAplicacaoDoFiltro(true);
         desativaAtivaCanvasDeSaidas(false);
+        btnAplicarFlitro.disabled = false;
 
     }
     else if (opcaoDeProcessamento.value === "opcaoP2") {
@@ -567,13 +570,13 @@ selectOpcoesOpMorfologicos.addEventListener('change', function () {
     desativaAtivaCanvasDeSaidas(false);
     limpaCanvasSaidas();
     if (selectOpcoesOpMorfologicos.value === "opcao1") {
-        habilitaDesabilitaInputeAplicacaoDoFiltro(true);
+        habilitaDesabilitaInputeAplicacaoDoOp(true);
         opcaoOpMorfologicos = "";
         tituloMatriz1.innerText = "Mascara"
         divMatriz2.style.display = 'none';
     }
     else {
-        habilitaDesabilitaInputeAplicacaoDoFiltro(false);
+        habilitaDesabilitaInputeAplicacaoDoOp(false);
         opcaoOpMorfologicos = selectOpcoesOpMorfologicos.value;
         divMatriz2.style.display = 'none';
         canvasImgFiltrada.style.display = "block";
@@ -630,6 +633,8 @@ selectTransformacoes.addEventListener('change', function () {
         canvasImgFiltrada.style.display = "block";
         setValoresDosFiltrosNosInputsM1(opMorfologicas.matrizBase);
 
+        setSeeInput();
+
         if (selectTransformacoes.value === "trans1") {
             tituloMatriz1.innerText = "Negativo";
         } else if (selectTransformacoes.value === "trans2") {
@@ -656,6 +661,14 @@ selectTransformacoes.addEventListener('change', function () {
     }
 
 });
+
+function setSeeInput(){
+    inputGama.style.display = 'none';
+    inputLog.style.display = 'none';
+    inputIntGeral.style.display = 'none';
+    inputFxDin.style.display = 'none';
+    inputLinear.style.display = 'none';
+}
 
 // ouvinte para quando o botão for clicado, o valor seja setado na matriz
 btnSetarHBNaMatriz.addEventListener('click', function () {
@@ -783,36 +796,61 @@ btnAplicarOpMorfologicos.addEventListener('click', function () {
         [celulaOp10.value, celulaOp11.value, celulaOp12.value],
         [celulaOp20.value, celulaOp21.value, celulaOp22.value]
     ];
-
+    let seeBin = false;
+    let seeMore = 0;
     let matrizModificada = [];
     let largura = canvasImgFiltrada.width;
     let altura = canvasImgFiltrada.height;
     canvasFiltro.clearRect(0, 0, largura, altura);
-    console.log("filtroAtualizado", filtroAtualizado)
+    canvasFiltro2.clearRect(0, 0, largura, altura);
 
     if (opcaoOpMorfologicos === "op2") {
         matrizModificada = opMorfologicas.grayErosion(matrizBase, filtroAtualizado);
     } else if (opcaoOpMorfologicos === "op3") {
         matrizModificada = opMorfologicas.grayDilation(matrizBase, filtroAtualizado);
     } else if (opcaoOpMorfologicos === "op4") {
-        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.pegarMediaImagem(matrizBase), canvasImgFiltrada2);
-        matrizModificada = opMorfologicas.binaryErosion(matrizBase, filtroAtualizado);
+        seeBin = true;
+        matrizModificada = teste.binaryErosion(matrizBase, filtroAtualizado);
     } else if (opcaoOpMorfologicos === "op5") {
-        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.pegarMediaImagem(matrizBase), canvasImgFiltrada2);
+        seeBin = true;
         matrizModificada = opMorfologicas.binaryDilation(matrizBase, filtroAtualizado);
     } else if (opcaoOpMorfologicos === "op6") {
-        matrizModificada = opMorfologicas.binaryOpening(matrizBase, filtroAtualizado);
+        if(radioIsBinary.checked){
+            seeMore = 2;
+        }
+        else{ 
+            seeMore = 1;
+        }
+        matrizModificada = opMorfologicas.binaryOpening(matrizBase, filtroAtualizado, radioIsBinary.checked);
     } else if (opcaoOpMorfologicos === "op7") {
+        seeBin = true;
         matrizModificada = opMorfologicas.binaryClosing(matrizBase, filtroAtualizado);
     } else if (opcaoOpMorfologicos === "op8") {
+        seeBin = true;
         matrizModificada = opMorfologicas.binaryGradient(matrizBase, filtroAtualizado);
     } else if (opcaoOpMorfologicos === "op9") {
+        seeBin = true;
         matrizModificada = opMorfologicas.binaryTopHat(matrizBase, filtroAtualizado);
     } else if (opcaoOpMorfologicos === "op10") {
+        seeBin = true;
         matrizModificada = opMorfologicas.binaryBottomHat(matrizBase, filtroAtualizado);
     }
     canvasFiltro.clearRect(0, 0, largura, altura);
+    canvasFiltro2.clearRect(0, 0, largura, altura);
 
+    if (seeBin){
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.pegarMediaImagem(matrizBase), canvasImgFiltrada2);
+    }
+
+    if (seeMore === 1){
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemErodida, canvasImgFiltrada2);
+    }else if(seeMore === 2){
+        canvasImgFiltrada3.style.display = "block";
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemErodida, canvasImgFiltrada2);
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemBinaria, canvasImgFiltrada3);
+    }
+    
+    
     //Aplicar o truncamento ou normalização
     // if(radioTruncamento.checked){
     //     matrizModificada = truncarValores(matrizModificada);

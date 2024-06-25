@@ -1,3 +1,8 @@
+import * as teste from './teste.js';
+
+export let imagemErodida;
+export let imagemBinaria;
+
 export const matrizBase = [
     [0, 0, 0],
     [0, 0, 0],
@@ -209,10 +214,13 @@ export function binaryDilation(image, mascara) {
 // Função para realizar a operação de abertura em uma imagem binária
 export function binaryOpening(image, structuringElement, isBinary) {
     if (isBinary) {
-        const resultbinaryErosion = binaryErosion(image, structuringElement);
+        const resultbinaryErosion = teste.binaryErosion(image, structuringElement);
+        imagemErodida = resultbinaryErosion;
+        imagemBinaria = pegarMediaImagem(image);
         return binaryDilation(resultbinaryErosion, structuringElement);
     }
     const resultbinaryErosion = grayErosion(image, structuringElement);
+    imagemErodida = resultbinaryErosion;
     return binaryDilation(resultbinaryErosion, structuringElement);
 }
 
