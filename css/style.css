@@ -4,6 +4,7 @@
     --cor-de-fundo2: rgba(2,24,58,0.7);
     --cor-de-textos: white;
     --cor-de-sombra: rgba(0, 0, 0, 0.7);
+    --cor-de-hover: red;
 }
 
 body{
@@ -34,7 +35,7 @@ body{
 }
 
 .titulo:hover{
-    color: red;
+    color: var(--cor-de-hover);
 }
 
 .nomesMembros{
@@ -51,7 +52,7 @@ body{
 }
 
 .nomesMembros h5:hover{
-    color: red;
+    color: var(--cor-de-hover);
 }
 
 /* ------------------------------------- CORPO(main) ------------------------------------- */
