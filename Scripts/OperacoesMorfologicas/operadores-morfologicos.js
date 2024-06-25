@@ -48,7 +48,7 @@ export function grayErosion(image, mascara) {
 
     const result = []
 
-    const base = image
+    const base = image;
     const n = image.length;
     const m = image[0].length;
 
@@ -81,7 +81,7 @@ export function grayDilation(image, mascara) {
 
     const result = []
 
-    const base = image
+    const base = image;
     const n = image.length;
     const m = image[0].length;
 
@@ -119,7 +119,7 @@ async function esperarDezSegundos() {
 
 export function binaryErosion(image, mascara) {
 
-    const base = image
+    const base = image;
     const n = image.length;
     const m = image[0].length;
 
