@@ -7,7 +7,7 @@ import * as opMorfologicas from "./Scripts/OperacoesMorfologicas/operadores-morf
 import * as teste from "./Scripts/OperacoesMorfologicas/teste.js";
 import * as transformacoesImg from "./Scripts/Transformacoes/transformacoes.js";
 import { normalizarValores, truncarValores } from "./Scripts/AjustesPixels/AjustaPixel.js";
-import { criacaoDasTabelas } from "./Scripts/Histograma/ExtracaoDeDados.js";
+import { criacaoDasTabelas, retornaMatrizEqualizada } from "./Scripts/Histograma/ExtracaoDeDados.js";
 import { exibirInformacoesHistograma } from "./Scripts/Histograma/exibicaoDeDados.js";
 
 // sections/div 
@@ -113,6 +113,18 @@ var matrizBase; // Matriz criada para ter apenas os valores que serão processad
 var matrizBase2;//Para oprações básicas dos filtros
 let opcaoOpMorfologicos; // Variável criada para armazenar o tipo de mascara escolhido, para não precisar criar outra função do select
 let transformacoes;
+var matrizParaHistograma = [];
+
+//Canvas do histograma
+const imagemOriginalHist = document.getElementById('imagemOriginalHist');
+var canvasImagemOriginalHist = imagemOriginalHist.getContext('2d');
+const histogramaDaImagemOriginal = document.getElementById('histogramaDaImagemOriginal');
+var canvasHistogramaDaImagemOriginal = histogramaDaImagemOriginal.getContext('2d');
+//segunda parte
+const imagemModificadaHist = document.getElementById('imagemModificadaHist');
+var canvasImagemModificadaHist = imagemModificadaHist.getContext('2d');
+const histogramaDaImagemModificada = document.getElementById('histogramaDaImagemModificada');
+var canvasHistogramaDaImagemModificada = histogramaDaImagemModificada.getContext('2d');
 
 let controleDeAberturaDeImagens2 = 0;
 
@@ -213,6 +225,14 @@ function setValoresDosFiltrosNosInputsM1(matriz) {
     celula22.value = matriz[2][2];
 }
 
+//função pra limpar canvas do histograma
+function limparCanvasHistograma(){
+    canvasImagemOriginalHist.clearRect(0, 0, imagemOriginalHist.width, imagemOriginalHist.height);
+    canvasHistogramaDaImagemOriginal.clearRect(0, 0, histogramaDaImagemOriginal.width, histogramaDaImagemOriginal.height);
+    canvasImagemModificadaHist.clearRect(0, 0, imagemModificadaHist.width, imagemModificadaHist.height);
+    canvasHistogramaDaImagemModificada.clearRect(0, 0, histogramaDaImagemModificada.width, histogramaDaImagemModificada.height)
+}
+
 function setValoresDosFiltrosNosInputsOp(matriz) {
     celulaOp00.value = matriz[0][0];
     celulaOp01.value = matriz[0][1];
@@ -288,8 +308,6 @@ function abrirOutraImagem() {
 }
 
 // Função para lidar com o upload do arquivo
-
-
 function lidarComUploadDeArquivo(evento) {
     const arquivo = evento.target.files[0]; // Obtém o primeiro arquivo selecionado
     radioTruncamento.checked = true;
@@ -303,7 +321,6 @@ function lidarComUploadDeArquivo(evento) {
             ativaDivsOpMorfologicos(false);
         }
 
-
         let largura2 = canvaDaImagemPrincipalFiltros.width;
         let altura2 = canvaDaImagemPrincipalFiltros.height;
         canvasCtx.clearRect(0, 0, largura2, altura2);
@@ -315,7 +332,16 @@ function lidarComUploadDeArquivo(evento) {
             matrizBase = criarMatriz(dadosPGM); // Cria a matriz de 256x256 com os valores dos pixels
             canvasCtx.clearRect(0, 0, largura2, altura2);
             renderizarPGMNoCanvas(dadosPGM, matrizBase, canvaDaImagemPrincipalFiltros); // Renderiza a imagem PGM no canvas usando a matriz
+               
+            for(var linha = 0; linha < matrizBase.length; linha++){
+                var linhas = [];
+                for(var coluna = 0; coluna < matrizBase[0].length; coluna++){
+                    linhas.push(matrizBase[linha][coluna]);
+                }
+                matrizParaHistograma.push(linhas);
+            }         
         };
+
         leitor.readAsText(arquivo); // Inicia a leitura do conteúdo do arquivo como texto
     }
 }
@@ -344,10 +370,16 @@ opcaoDeProcessamento.addEventListener('change', function () {
     }
     else if (opcaoDeProcessamento.value === "opcaoP2") {
         document.getElementById('divParteHistrograma').style.display = 'flex';
+        limparCanvasHistograma();
+        //Canvas da Imagem(Original)
+        renderizarPGMNoCanvas(dadosPGM, matrizParaHistograma, imagemOriginalHist);
+        
+        var tb3 = criacaoDasTabelas(matrizParaHistograma, 256);
+        var matrizEql = retornaMatrizEqualizada(matrizParaHistograma, tb3);
+        //Canvas da Imagem do histograma(Equalizada)
+        renderizarPGMNoCanvas(dadosPGM, matrizEql, imagemModificadaHist);
 
-        //criacaoDasTabelas(matrizBase, dadosPGM.valorMaximo);
-
-        exibirInformacoesHistograma();
+        //exibirInformacoesHistograma(matrizBase);
     }
     else if (opcaoDeProcessamento.value === 'opcaoP3') {
         ativaDivsOpMorfologicos(true);

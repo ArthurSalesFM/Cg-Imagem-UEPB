@@ -1,6 +1,6 @@
 
 
-export function exibirInformacoesHistograma(){
+export function exibirInformacoesHistograma(matrizBase){
     //Canvas dos histogramas
 //var canvasImagemImportadaHistograma = document.getElementById('imagemOriginalHist');
 //var canvasImagemProcessadaHistograma = document.getElementById('imagemModificadaHist');
@@ -59,6 +59,9 @@ ctx.strokeStyle = "yellow";
 
 // Desenhe as linhas verticais aleatórias
 for (var i = 0; i < numLinhasVerticais; i++) {
+
+    //criacaoDasTabelas();
+
     // Tamanho aleatório para cada linha entre 0 e a altura da linha horizontal
     var tamanhoLinhaVertical = Math.random() * lineHeight;
 
