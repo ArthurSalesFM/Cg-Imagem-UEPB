@@ -372,10 +372,10 @@ opcaoDeProcessamento.addEventListener('change', function () {
         document.getElementById('divParteHistrograma').style.display = 'flex';
         limparCanvasHistograma();
         //Canvas da Imagem(Original)
-        renderizarPGMNoCanvas(dadosPGM, matrizParaHistograma, imagemOriginalHist);
+        renderizarPGMNoCanvas(dadosPGM, matrizBase, imagemOriginalHist);
         
-        var tb3 = criacaoDasTabelas(matrizParaHistograma, 256);
-        var matrizEql = retornaMatrizEqualizada(matrizParaHistograma, tb3);
+        var tb3 = criacaoDasTabelas(matrizBase, 256);
+        var matrizEql = retornaMatrizEqualizada(matrizBase, tb3);
         //Canvas da Imagem do histograma(Equalizada)
         renderizarPGMNoCanvas(dadosPGM, matrizEql, imagemModificadaHist);
 
@@ -781,6 +781,7 @@ btnAplicarFlitro.addEventListener('click', function () {
 //
 btnFecharHistograma.addEventListener('click', function () {
     document.getElementById('divParteHistrograma').style.display = 'none';
+    canvasImgBinaria.style.display = 'none';
 });
 
 // Ouvinte para aplicar os filtros
