@@ -157,10 +157,10 @@
 
                 <div class="botaoAplicar" style="display: none;" id="faixaDinamicaInput">
                     <p>Defina o valor Minimo</p>
-                    <input type="number" class="celula" id="fxDiMin" value="0">
+                    <input type="number" class="celula" id="fxDiMin" min="0" max="255" value="0">
                     <br/>
                     <p>Defina o valor Maximo</p>
-                    <input type="number" class="celula" id="fxDiMax" value="0">
+                    <input type="number" class="celula" id="fxDiMax" max="255" value="255">
                 </div>
 
                 <div class="botaoAplicar" style="display: none;" id="linearInput">
@@ -322,11 +322,8 @@
 
                 <!-- opcao de ajuste de pixel -->
                 <div class="ajusteDePixel">
-                    <!-- <input type="radio" id="radio1" name="ajusteDePixel" checked>
-                    <label for="radio1">Truncar</label>
-
-                    <input type="radio" id="radio2" name="ajusteDePixel">
-                    <label for="radio2">Normalizar</label> -->
+                    <input type="checkbox" id="isBinary" name="ajusteDePixel">
+                    <label for="isBinary">Usar imagem em Binario</label>
 
                     <button id="aplicarOpMorfologicos" class="btnAplicarFilto">Aplicar</button>
                 </div>

@@ -587,19 +587,14 @@ selectOpcoesOpMorfologicos.addEventListener('change', function () {
             tituloMatriz1.innerText = "Dilatação Cinza";
         } else if (selectOpcoesOpMorfologicos.value === "op4") {
             tituloMatriz1.innerText = "Erosão Binária";
-            canvasImgFiltrada2.style.display = "block";
         } else if (selectOpcoesOpMorfologicos.value === "op5") {
             tituloMatriz1.innerText = "Dilatação Binária";
-            canvasImgFiltrada2.style.display = "block";
         } else if (selectOpcoesOpMorfologicos.value === "op6") {
             tituloMatriz1.innerText = "Abertura";
-            canvasImgFiltrada2.style.display = 'block';
         } else if (selectOpcoesOpMorfologicos.value === "op7") {
             tituloMatriz1.innerText = "Fechamento";
-            canvasImgFiltrada2.style.display = 'block';
         } else if (selectOpcoesOpMorfologicos.value === "op8") {
             tituloMatriz1.innerText = "Gradiente";
-            canvasImgFiltrada2.style.display = 'block';
         } else if (selectOpcoesOpMorfologicos.value === "op9") {
             tituloMatriz1.innerText = "Top Hat";
             canvasImgFiltrada2.style.display = 'block';
@@ -788,18 +783,22 @@ btnFecharHistograma.addEventListener('click', function () {
 btnAplicarOpMorfologicos.addEventListener('click', function () {
     //Como pode haver modificações feitas pelo o usuário, então é mais prudente pegar os valores que foi mostrado para o usuário
     //Se pegar diretamente do filtro pode não ser o resultado esperado pelo o usuário, uma vez que possa ter mudado o valor do filtro.
+    canvasImgFiltrada.style.display = "none";
     let filtroAtualizado = [
         [celulaOp00.value, celulaOp01.value, celulaOp02.value],
         [celulaOp10.value, celulaOp11.value, celulaOp12.value],
         [celulaOp20.value, celulaOp21.value, celulaOp22.value]
     ];
     let seeBin = false;
-    let seeMore = 0;
+    let abertura = 0;
+    let fechadura = 0;
+    let gradiente = 0;
+    let topHat = 0;
+    let bottomHat = 0;
     let matrizModificada = [];
-    let largura = canvasImgFiltrada.width;
-    let altura = canvasImgFiltrada.height;
-    canvasFiltro.clearRect(0, 0, largura, altura);
-    canvasFiltro2.clearRect(0, 0, largura, altura);
+    let largura = canvasImgFiltrada4.width;
+    let altura = canvasImgFiltrada4.height;
+    limpaCanvasSaidas();
 
     if (opcaoOpMorfologicos === "op2") {
         matrizModificada = opMorfologicas.grayErosion(matrizBase, filtroAtualizado);
@@ -813,50 +812,128 @@ btnAplicarOpMorfologicos.addEventListener('click', function () {
         matrizModificada = opMorfologicas.binaryDilation(matrizBase, filtroAtualizado);
     } else if (opcaoOpMorfologicos === "op6") {
         if(radioIsBinary.checked){
-            seeMore = 2;
+            abertura = 2;
         }
         else{ 
-            seeMore = 1;
+            abertura = 1;
         }
         matrizModificada = opMorfologicas.binaryOpening(matrizBase, filtroAtualizado, radioIsBinary.checked);
     } else if (opcaoOpMorfologicos === "op7") {
-        seeBin = true;
-        matrizModificada = opMorfologicas.binaryClosing(matrizBase, filtroAtualizado);
+        if(radioIsBinary.checked){
+            fechadura = 2;
+        }
+        else{ 
+            fechadura = 1;
+        }
+        matrizModificada = opMorfologicas.binaryClosing(matrizBase, filtroAtualizado, radioIsBinary.checked);
     } else if (opcaoOpMorfologicos === "op8") {
-        seeBin = true;
-        matrizModificada = opMorfologicas.binaryGradient(matrizBase, filtroAtualizado);
+        if(radioIsBinary.checked){
+            gradiente = 2;
+        }
+        else{ 
+            gradiente = 1;
+        }
+        matrizModificada = opMorfologicas.binaryGradient(matrizBase, filtroAtualizado, radioIsBinary.checked);
     } else if (opcaoOpMorfologicos === "op9") {
-        seeBin = true;
-        matrizModificada = opMorfologicas.binaryTopHat(matrizBase, filtroAtualizado);
+        if(radioIsBinary.checked){
+            topHat = 2;
+        }
+        else{ 
+            topHat = 1;
+        }
+        matrizModificada = opMorfologicas.binaryTopHat(matrizBase, filtroAtualizado, radioIsBinary.checked);
     } else if (opcaoOpMorfologicos === "op10") {
-        seeBin = true;
+        if(radioIsBinary.checked){
+            bottomHat = 2;
+        }
+        else{ 
+            bottomHat = 1;
+        }
         matrizModificada = opMorfologicas.binaryBottomHat(matrizBase, filtroAtualizado);
     }
-    canvasFiltro.clearRect(0, 0, largura, altura);
-    canvasFiltro2.clearRect(0, 0, largura, altura);
 
     if (seeBin){
-        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.pegarMediaImagem(matrizBase), canvasImgFiltrada2);
+        canvasImgFiltrada.style.display = "block";
+
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.pegarMediaImagem(matrizBase), canvasImgFiltrada);
     }
 
-    if (seeMore === 1){
+    if (abertura === 1){
+        canvasImgFiltrada.style.display = "block";
+
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemErodida, canvasImgFiltrada);
+    }else if(abertura === 2){
+        canvasImgFiltrada2.style.display = "block";
+        canvasImgFiltrada.style.display = "block";
+
         renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemErodida, canvasImgFiltrada2);
-    }else if(seeMore === 2){
-        canvasImgFiltrada3.style.display = "block";
-        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemErodida, canvasImgFiltrada2);
-        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemBinaria, canvasImgFiltrada3);
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemBinaria, canvasImgFiltrada);
     }
-    
-    
-    //Aplicar o truncamento ou normalização
-    // if(radioTruncamento.checked){
-    //     matrizModificada = truncarValores(matrizModificada);
-    // }
-    // else{
-    //     matrizModificada = normalizarValores(matrizModificada);
-    // }
-    console.log("matrizModificada", matrizModificada);
-    renderizarPGMNoCanvas(dadosPGM, matrizModificada, canvasImgFiltrada);
+
+    if (fechadura === 1){
+        canvasImgFiltrada.style.display = "block";
+
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemDilatada, canvasImgFiltrada);
+    }else if(fechadura === 2){
+        canvasImgFiltrada2.style.display = "block";
+        canvasImgFiltrada.style.display = "block";
+
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemDilatada, canvasImgFiltrada2);
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemBinaria, canvasImgFiltrada);
+    }
+
+    if (gradiente === 1){
+        canvasImgFiltrada2.style.display = "block";
+        canvasImgFiltrada.style.display = "block";
+
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemDilatada, canvasImgFiltrada2);
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemErodida, canvasImgFiltrada);
+    }else if(gradiente === 2){
+        canvasImgFiltrada3.style.display = "block";
+        canvasImgFiltrada2.style.display = "block";        
+        canvasImgFiltrada.style.display = "block";
+
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemDilatada, canvasImgFiltrada3);
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemErodida, canvasImgFiltrada2);
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemBinaria, canvasImgFiltrada);
+    }
+
+    if (topHat === 1){
+        canvasImgFiltrada2.style.display = "block";
+        canvasImgFiltrada.style.display = "block";
+
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemAberta, canvasImgFiltrada2);
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemErodida, canvasImgFiltrada);
+    }else if(topHat === 2){
+        canvasImgFiltrada3.style.display = "block";
+        canvasImgFiltrada2.style.display = "block";        
+        canvasImgFiltrada.style.display = "block";
+
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemAberta, canvasImgFiltrada3);
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemErodida, canvasImgFiltrada2);
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemBinaria, canvasImgFiltrada);
+    }
+
+    if (bottomHat === 1){
+        canvasImgFiltrada2.style.display = "block";
+        canvasImgFiltrada.style.display = "block";
+
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemFechada, canvasImgFiltrada2);
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemDilatada, canvasImgFiltrada);
+    }else if(bottomHat === 2){
+        canvasImgFiltrada3.style.display = "block";
+        canvasImgFiltrada2.style.display = "block";        
+        canvasImgFiltrada.style.display = "block";
+
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemFechada, canvasImgFiltrada3);
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemDilatada, canvasImgFiltrada2);
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemBinaria, canvasImgFiltrada);
+    }
+
+    canvasFiltro4.clearRect(0, 0, largura, altura);
+    canvasImgFiltrada4.style.display = 'block';
+    renderizarPGMNoCanvas(dadosPGM, matrizModificada, canvasImgFiltrada4);
+    radioIsBinary.checked = false;
 });
 
 btnAplicarTrans.addEventListener('click', function () {
