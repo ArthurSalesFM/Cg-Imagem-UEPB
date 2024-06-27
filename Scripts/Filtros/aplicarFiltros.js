@@ -1,4 +1,4 @@
-import { Mediana } from "./filtros.js";
+import { Mediana, Media } from "./filtros.js";
 
 // Função para somar duas matrizes pixel a pixel
 export function somaDeMatrizes(matrizA, matrizB){
@@ -170,5 +170,15 @@ export function matrizesComFiltros(matrizBase, filtro){
         matrizFiltrada.push(row);
     }
     return matrizFiltrada;
+}
+
+export function autoReforco2(matrizBase){
+
+    var imagemMedia = matrizesComFiltros(matrizBase, Media);
+    var matrizNitides = subtracaoDeMatrizes(matrizBase, imagemMedia);
+    var imgFinal = somaDeMatrizes(matrizBase, matrizNitides);
+
+    return imgFinal;
+
 }
 

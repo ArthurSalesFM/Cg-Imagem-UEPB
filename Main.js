@@ -499,7 +499,7 @@ selectOpcoesFiltro.addEventListener('change', function () {
         }
         else if (selectOpcoesFiltro.value === "opcao14") {
             divValorParaFiltroHB.style.display = 'block';
-            tituloMatriz1.innerText = "Auto Reforço HB";
+            tituloMatriz1.innerText = "Auto Reforço HB 01";
             celula00.value = -1;
             celula01.value = -1;
             celula02.value = -1;
@@ -510,15 +510,28 @@ selectOpcoesFiltro.addEventListener('change', function () {
             celula21.value = -1;
             celula22.value = -1;
         }
-        else if (selectOpcoesFiltro.value === "opcao15") {
+        else if(selectOpcoesFiltro.value === "opcao15"){
+            divValorParaFiltroHB.style.display = "none";
+            tituloMatriz1.innerText = "Auto Reforço HB 02";
+            celula00.value = -1;
+            celula01.value = -1;
+            celula02.value = -1;
+            celula10.value = -1;
+            celula11.value = 0;
+            celula12.value = -1;
+            celula20.value = -1;
+            celula21.value = -1;
+            celula22.value = -1;
+        }
+        else if (selectOpcoesFiltro.value === "opcao16") {
             tituloMatriz1.innerText = "Sobel em X";
             setValoresDosFiltrosNosInputsM1(filtro.SobelX);
         }
-        else if (selectOpcoesFiltro.value === "opcao16") {
+        else if (selectOpcoesFiltro.value === "opcao17") {
             tituloMatriz1.innerText = "Sobel em Y";
             setValoresDosFiltrosNosInputsM1(filtro.SobelY);
         }
-        else if (selectOpcoesFiltro.value === "opcao17") {
+        else if (selectOpcoesFiltro.value === "opcao18") {
             divMatriz2.style.display = 'block';
             canvasImgFiltrada2.style.display = "block";
             canvasImgFiltrada3.style.display = "block";
@@ -532,13 +545,13 @@ selectOpcoesFiltro.addEventListener('change', function () {
 
         //Operações básicas
 
-        else if (selectOpcoesFiltro.value === "opcao18" ||
-            selectOpcoesFiltro.value === "opcao19" ||
+        else if (selectOpcoesFiltro.value === "opcao19" ||
             selectOpcoesFiltro.value === "opcao20" ||
             selectOpcoesFiltro.value === "opcao21" ||
             selectOpcoesFiltro.value === "opcao22" ||
             selectOpcoesFiltro.value === "opcao23" ||
-            selectOpcoesFiltro.value === "opcao24"
+            selectOpcoesFiltro.value === "opcao24" ||
+            selectOpcoesFiltro.value === "opcao25"
         ) {
             divMatriz1.style.display = 'none';
             divMatriz2.style.display = 'none';
@@ -560,7 +573,6 @@ selectOpcoesFiltro.addEventListener('change', function () {
 
         }
     }
-
 
 });
 
@@ -606,7 +618,6 @@ selectOpcoesOpMorfologicos.addEventListener('change', function () {
         let largura = canvasImgFiltrada.width;
         let altura = canvasImgFiltrada.height;
         canvasFiltro.clearRect(0, 0, largura, altura);
-
     }
 
 });
@@ -651,7 +662,6 @@ selectTransformacoes.addEventListener('change', function () {
         let largura = canvasImgFiltrada.width;
         let altura = canvasImgFiltrada.height;
         canvasFiltro.clearRect(0, 0, largura, altura);
-
     }
 
 });
@@ -666,7 +676,14 @@ function setSeeInput(){
 
 // ouvinte para quando o botão for clicado, o valor seja setado na matriz
 btnSetarHBNaMatriz.addEventListener('click', function () {
-    celula11.value = EntradaValorHB.value;
+    if(opcaoDeFiltro === "opcao14"){
+        let valor = 9 * EntradaValorHB.value - 1;
+        celula11.value = valor;
+    }
+    else if(opcaoDeFiltro === "opcao15"){
+        celula11.value = EntradaValorHB.value
+    }
+    
 });
 
 // Ouvinte para aplicar os filtros
@@ -692,18 +709,22 @@ btnAplicarFlitro.addEventListener('click', function () {
         opcaoDeFiltro === "opcao12" ||
         opcaoDeFiltro === "opcao14" ||
         opcaoDeFiltro === "opcao15" ||
-        opcaoDeFiltro === "opcao16") {
+        opcaoDeFiltro === "opcao16" ) {
 
         ativaDesativaDivImportImagemSecundaria(false);
         matrizModificada = aplicar.matrizesComFiltros(matrizBase, filtroAtualizado);
     }
+    else if(opcaoDeFiltro === "opcao17"){
+        ativaDesativaDivImportImagemSecundaria(false);
+        matrizModificada = aplicar.autoReforco2(matrizBase);
+    }
     else if (opcaoDeFiltro === "opcao3") {
         matrizModificada = aplicar.filtroMediana(matrizBase);
-    }
+    }    
     else if (opcaoDeFiltro === "opcao7" ||
         opcaoDeFiltro === "opcao10" ||
         opcaoDeFiltro === "opcao13" ||
-        opcaoDeFiltro === "opcao17") {
+        opcaoDeFiltro === "opcao18") {
 
         matrizModificada = aplicar.matrizesComFiltros(matrizBase, filtroAtualizado);
         ativaDesativaDivImportImagemSecundaria(false);
@@ -731,33 +752,35 @@ btnAplicarFlitro.addEventListener('click', function () {
         renderizarPGMNoCanvas(dadosPGM, matrizY, canvasImgFiltrada2);
         renderizarPGMNoCanvas(dadosPGM, matrizC, canvasImgFiltrada3);
 
+        return;
+
     }
 
-    else if (opcaoDeFiltro === "opcao18") {
+    else if (opcaoDeFiltro === "opcao19") {
         ativaDesativaDivImportImagemSecundaria(false);
         matrizModificada = aplicar.somaDeMatrizes(matrizBase, matrizBase2);
     }
-    else if (opcaoDeFiltro === "opcao19") {
+    else if (opcaoDeFiltro === "opcao20") {
         ativaDesativaDivImportImagemSecundaria(false);
         matrizModificada = aplicar.subtracaoDeMatrizes(matrizBase, matrizBase2);
     }
-    else if (opcaoDeFiltro === "opcao20") {
+    else if (opcaoDeFiltro === "opcao21") {
         ativaDesativaDivImportImagemSecundaria(false);
         matrizModificada = aplicar.multiplicacaoDeMatrizes(matrizBase, matrizBase2);
     }
-    else if (opcaoDeFiltro === "opcao21") {
+    else if (opcaoDeFiltro === "opcao22") {
         ativaDesativaDivImportImagemSecundaria(false);
         matrizModificada = aplicar.divisaoDeMatrizes(matrizBase, matrizBase2);
     }
-    else if (opcaoDeFiltro === "opcao22") {
+    else if (opcaoDeFiltro === "opcao23") {
         ativaDesativaDivImportImagemSecundaria(false);
         matrizModificada = aplicar.combinacaoBinariaOR(matrizBase, matrizBase2);
     }
-    else if (opcaoDeFiltro === "opcao23") {
+    else if (opcaoDeFiltro === "opcao24") {
         ativaDesativaDivImportImagemSecundaria(false);
         matrizModificada = aplicar.combinacaoBinariaAND(matrizBase, matrizBase2);
     }
-    else if (opcaoDeFiltro === "opcao24") {
+    else if (opcaoDeFiltro === "opcao25") {
         ativaDesativaDivImportImagemSecundaria(false);
         matrizModificada = aplicar.combinacaoBinariaXOR(matrizBase, matrizBase2);
     }
@@ -769,7 +792,6 @@ btnAplicarFlitro.addEventListener('click', function () {
     else {
         matrizModificada = normalizarValores(matrizModificada);
     }
-
     renderizarPGMNoCanvas(dadosPGM, matrizModificada, canvasImgFiltrada);
 });
 
