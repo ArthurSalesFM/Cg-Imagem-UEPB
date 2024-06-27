@@ -23,6 +23,7 @@ const divImagemFiltradaFiltro = document.querySelector(".imagemFiltradaFiltro");
 const divImagemBinaria = document.querySelector('.imagemBinaria');
 const divMatriz2 = document.querySelector(".matriz2");
 const divMatriz1 = document.querySelector(".matriz1");
+const matrizDosFiltros = document.getElementById('matrizDosFiltros');
 
 const divOpcaoOpMorfologicos = document.querySelector('.opcaoOpMorfologicos');
 const divInfoOpMorfologicos = document.querySelector('.infoOpMorfologicos');
@@ -227,7 +228,6 @@ function ativaDivsGeometricas(mostrar) {
     divBotaoAplicar.style.display = mostrar ? "block" : "none";
 }
 
-
 //Seta os valores dos filtros nos input, para visualização do usuário na matriz 1
 function setValoresDosFiltrosNosInputsM1(matriz) {
     celula00.value = matriz[0][0];
@@ -391,12 +391,12 @@ opcaoDeProcessamento.addEventListener('change', function () {
         //Canvas da Imagem(Original)
         renderizarPGMNoCanvas(dadosPGM, matrizBase, imagemOriginalHist);
         
-        var tb3 = criacaoDasTabelas(matrizBase, 256);
+        var [tb, tb3, tb4] = criacaoDasTabelas(matrizBase, 256);
         var matrizEql = retornaMatrizEqualizada(matrizBase, tb3);
         //Canvas da Imagem do histograma(Equalizada)
         renderizarPGMNoCanvas(dadosPGM, matrizEql, imagemModificadaHist);
 
-        //exibirInformacoesHistograma(matrizBase);
+        exibirInformacoesHistograma(matrizBase ,tb, tb4);
     }
     else if (opcaoDeProcessamento.value === 'opcaoP3') {
         ativaDivsOpMorfologicos(true);
@@ -418,9 +418,6 @@ opcaoDeProcessamento.addEventListener('change', function () {
         const altura = canvasImgFiltrada.height;
         canvasBin.clearRect(0, 0, largura, altura);
     }
-    else {
-        alert('Falta IMPLEMENTAR....');
-    }
 });
 
 // Ouvinte para verificar mudanças de opção dos filtros
@@ -429,6 +426,7 @@ selectOpcoesFiltro.addEventListener('change', function () {
     limpaCanvasSaidas();
     divImagemBinaria.style.display = "none";
     divImportarParaOperacao.style.display = "none";
+    matrizDosFiltros.style.display = 'block';
 
     if (selectOpcoesFiltro.value === "opcao1") {
         habilitaDesabilitaInputeAplicacaoDoFiltro(true);
@@ -564,10 +562,8 @@ selectOpcoesFiltro.addEventListener('change', function () {
             tituloMatriz2.innerText = "Sobel em Y";
             setValoresDosFiltrosNosInputsM2(filtro.SobelY);
         }
-
-
+        
         //Operações básicas
-
         else if (selectOpcoesFiltro.value === "opcao19" ||
             selectOpcoesFiltro.value === "opcao20" ||
             selectOpcoesFiltro.value === "opcao21" ||

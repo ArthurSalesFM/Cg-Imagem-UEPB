@@ -279,7 +279,7 @@
                     </div>
                 </div>
 
-                <div class="matriz2" style="display: none;">
+                <div class="matriz2" id="matrizDosFiltros" style="display: none;">
                     <h6 id="matriz2">Filtro</h6>
                     <div class="matriz">
                         <div class="linha">
@@ -318,12 +318,6 @@
                 <div class="botaoAplicar">
                     <button id="aplicarFlitro" class="btnAplicarFilto">Aplicar</button>
                 </div>
-
-                <!--
-                <div class="btnMostrarHistograma">
-                    <button id="mostrarHistograma" class="btnAplicarFilto">Histograma</button>
-                </div>
-                -->
             </div>
 
             <!-- Parte referente a informação do filtro escolhido -->
@@ -351,27 +345,6 @@
                     </div>
                 </div>
 
-                <!-- <div class="matriz2" style="display: none;">
-                    <h6 id="matriz2">Mascara</h6>
-                    <div class="matriz">
-                        <div class="linha">
-                            <input type="number" class="celula" id="2celulaOp00" value="0">
-                            <input type="number" class="celula" id="2celulaOp01" value="0">
-                            <input type="number" class="celula" id="2celulaOp02" value="0">
-                        </div>
-                        <div class="linha">
-                            <input type="number" class="celula" id="2celulaOp10" value="0">
-                            <input type="number" class="celula" id="2celulaOp11" value="0">
-                            <input type="number" class="celula" id="2celulaOp12" value="0">
-                        </div>
-                        <div class="linha">
-                            <input type="number" class="celula" id="2celulaOp20" value="0">
-                            <input type="number" class="celula" id="2celulaOp21" value="0">
-                            <input type="number" class="celula" id="2celulaOp22" value="0">
-                        </div>
-                    </div>
-                </div> -->
-
                 <!-- opcao de ajuste de pixel -->
                 <div class="ajusteDePixel">
                     <input type="checkbox" id="isBinary" name="ajusteDePixel">
@@ -380,7 +353,6 @@
                     <button id="aplicarOpMorfologicos" class="btnAplicarFilto">Aplicar</button>
                 </div>
             </div>
-
 
             <!-- Canvas referente a imagem com o filtro aplicado -->
             <div class="imagemFiltradaFiltro" style="display: none;">
