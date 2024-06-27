@@ -880,7 +880,8 @@ btnAplicarOpMorfologicos.addEventListener('click', function () {
     limpaCanvasSaidas();
 
     if (opcaoOpMorfologicos === "op2") {
-        matrizModificada = opMorfologicas.grayErosion(matrizBase, filtroAtualizado);
+        seeBin = radioIsBinary.checked;
+        matrizModificada = opMorfologicas.grayErosion(matrizBase, filtroAtualizado, radioIsBinary.checked);
     } else if (opcaoOpMorfologicos === "op3") {
         matrizModificada = opMorfologicas.grayDilation(matrizBase, filtroAtualizado);
     } else if (opcaoOpMorfologicos === "op4") {

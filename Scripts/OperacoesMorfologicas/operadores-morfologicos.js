@@ -47,7 +47,11 @@ export function pegarMediaImagem(image) {
     return matrizResultado;
 }
 
-export function grayErosion(image, mascara) {
+export function grayErosion(image, mascara, isBinary) {
+
+    if(isBinary){
+        image = pegarMediaImagem(image);
+    }
 
     const result = []
 
