@@ -113,7 +113,7 @@ export function criacaoDasTabelas(matrizDaImagem, quantidadeDeNvCinzas){
     /*
         *************************** CRIAÇÃO DA QUARTA TABELA ***************************
     */
-    /*
+    
     var tabela4 = [];
     var linhaNVDCTabela4 = [];
     var linhaNkTabela4 = []; 
@@ -137,9 +137,9 @@ export function criacaoDasTabelas(matrizDaImagem, quantidadeDeNvCinzas){
     tabela4.push(linhaPSKTabela4);
 
     //console.log("Tabela 3...");
-    //console.log(tabela3);
-    */
-    return tabela3;
+    //console.log(tabela4);
+    
+    return [tabela, tabela3, tabela4];
 }
 
 export function retornaMatrizEqualizada(matrizDaImagem, tb3){

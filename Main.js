@@ -374,12 +374,12 @@ opcaoDeProcessamento.addEventListener('change', function () {
         //Canvas da Imagem(Original)
         renderizarPGMNoCanvas(dadosPGM, matrizBase, imagemOriginalHist);
         
-        var tb3 = criacaoDasTabelas(matrizBase, 256);
+        var [tb, tb3, tb4] = criacaoDasTabelas(matrizBase, 256);
         var matrizEql = retornaMatrizEqualizada(matrizBase, tb3);
         //Canvas da Imagem do histograma(Equalizada)
         renderizarPGMNoCanvas(dadosPGM, matrizEql, imagemModificadaHist);
 
-        //exibirInformacoesHistograma(matrizBase);
+        exibirInformacoesHistograma(matrizBase ,tb, tb4);
     }
     else if (opcaoDeProcessamento.value === 'opcaoP3') {
         ativaDivsOpMorfologicos(true);
@@ -541,10 +541,8 @@ selectOpcoesFiltro.addEventListener('change', function () {
             tituloMatriz2.innerText = "Sobel em Y";
             setValoresDosFiltrosNosInputsM2(filtro.SobelY);
         }
-
-
+        
         //Operações básicas
-
         else if (selectOpcoesFiltro.value === "opcao19" ||
             selectOpcoesFiltro.value === "opcao20" ||
             selectOpcoesFiltro.value === "opcao21" ||
