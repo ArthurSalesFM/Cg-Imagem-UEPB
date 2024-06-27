@@ -47,7 +47,6 @@ export function reflect(image, axis) {
 
 
 
-
 export function warping(image, a, b, c, d, e, f, i, j) {
     return affineTransformWarping(image, a, b, c, d, e, f, i, j);
 }
@@ -55,10 +54,7 @@ export function warping(image, a, b, c, d, e, f, i, j) {
 function affineTransformWarping(image, a, b, c, d, e, f, i, j) {
     const width = image.length;
     const height = image[0].length;
-    const maxVal = pegarMax(image);
-    const imageData = image;
-
-    const newImageData = Array.from({ length: height }, () => Array(width).fill(255)); // 255 para fundo branco
+    const newImageData = Array.from({ length: width }, () => Array(height).fill(255)); // 255 para fundo branco
 
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
@@ -67,7 +63,7 @@ function affineTransformWarping(image, a, b, c, d, e, f, i, j) {
             const newY = Math.round((d * x + e * y + f) / denominator);
 
             if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
-                newImageData[newY][newX] = imageData[y][x];
+                newImageData[newY][newX] = image[y][x];
             }
         }
     }
@@ -134,31 +130,68 @@ function affineTransformReflect(image, transformMatrix) {
 function affineTransformRotate(image, transformMatrix) {
     const width = image.length;
     const height = image[0].length;
-    const maxVal = pegarMax(image);
+    const maxVal = pegarMax(image); // Assumindo que essa função pega o valor máximo da imagem
     const imageData = image;
 
     // Calculando novas dimensões da imagem
     const newWidth = Math.abs(Math.floor(width * transformMatrix[0][0])) + Math.abs(Math.floor(height * transformMatrix[1][0]));
     const newHeight = Math.abs(Math.floor(width * transformMatrix[0][1])) + Math.abs(Math.floor(height * transformMatrix[1][1]));
 
-    const newImageData = Array.from({ length: newWidth }, () => Array(newHeight).fill(255)); // 255 para fundo branco
+    // Dimensão máxima para garantir que a nova imagem seja um quadrado
+    const maxDimension = Math.max(newWidth, newHeight);
 
-    const inverseMatrix = invertMatrix(transformMatrix);
+    const newImageData = Array.from({ length: maxDimension }, () => Array(maxDimension).fill(255)); // 255 para fundo branco
 
-    for (let y = 0; y < newHeight; y++) {
-        for (let x = 0; x < newWidth; x++) {
-            const newCoords = multiplyMatrixAndPoint(inverseMatrix, [x - newWidth / 2, y - newHeight / 2, 1]);
+    const inverseMatrix = invertMatrixRotate(transformMatrix);
+
+    for (let y = 0; y < maxDimension; y++) {
+        for (let x = 0; x < maxDimension; x++) {
+            const newCoords = multiplyMatrixAndPointRotate(inverseMatrix, [x - maxDimension / 2, y - maxDimension / 2, 1]);
             const newX = Math.round(newCoords[0] + width / 2);
             const newY = Math.round(newCoords[1] + height / 2);
 
-            if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
-                newImageData[x][y] = imageData[newX][newY];
+            // Ajustando o ponto (0,0) para a parte inferior esquerda
+            const adjustedY = height - 1 - newY;
+
+            if (newX >= 0 && newX < width && adjustedY >= 0 && adjustedY < height) {
+                newImageData[y][x] = imageData[adjustedY][newX];
             }
         }
     }
 
     return newImageData;
 }
+
+function multiplyMatrixAndPointRotate(matrix, point) {
+    const result = [];
+    for (let i = 0; i < matrix.length; i++) {
+        let sum = 0;
+        for (let j = 0; j < point.length; j++) {
+            sum += matrix[i][j] * point[j];
+        }
+        result.push(sum);
+    }
+    return result;
+}
+
+function invertMatrixRotate(matrix) {
+    // Aqui você pode implementar a inversão de matriz ou usar uma biblioteca de álgebra linear.
+    // Este é um exemplo simplificado. Em um caso real, você deve usar uma implementação robusta.
+    const [[a, b, c], [d, e, f], [g, h, i]] = matrix;
+    const det = a * e * i - a * f * h - b * d * i + b * f * g + c * d * h - c * e * g;
+    if (det === 0) {
+        throw new Error("Matrix is not invertible");
+    }
+    const invDet = 1 / det;
+    const result = [
+        [(e * i - f * h) * invDet, (c * h - b * i) * invDet, (b * f - c * e) * invDet],
+        [(f * g - d * i) * invDet, (a * i - c * g) * invDet, (c * d - a * f) * invDet],
+        [(d * h - e * g) * invDet, (b * g - a * h) * invDet, (a * e - b * d) * invDet]
+    ];
+    return result;
+}
+
+
 function multiplyMatrixAndPoint(matrix, point) {
     const [x, y, z] = point;
     const newPoint = [
@@ -169,7 +202,7 @@ function multiplyMatrixAndPoint(matrix, point) {
     return newPoint;
 }
 
-function pegarMax(matriz) {
+export function pegarMax(matriz) {
     let max = 0;
     for (let i = 0; i < matriz.length; i++) {
         for (let j = 0; j < matriz[i].length; j++) {
@@ -180,6 +213,19 @@ function pegarMax(matriz) {
     }
     return max;
 }
+
+export function pegarMin(matriz) {
+    let min = 0;
+    for (let i = 0; i < matriz.length; i++) {
+        for (let j = 0; j < matriz[i].length; j++) {
+            if (matriz[i][j] < min) {
+                min = matriz[i][j];
+            }
+        }
+    }
+    return min;
+}
+
 
 function invertMatrix(matrix) {
     const [a, b, c, d, e, f, g, h, i] = matrix.flat();

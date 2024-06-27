@@ -84,9 +84,14 @@ export function grayErosion(image, mascara, isBinary) {
     return result;
 }
 
-export function grayDilation(image, mascara) {
+export function grayDilation(image, mascara, isBinary) {
 
-    const result = []
+
+    if(isBinary){
+        image = pegarMediaImagem(image);
+    }
+
+    let result = []
 
     const base = image;
     const n = image.length;
@@ -113,6 +118,10 @@ export function grayDilation(image, mascara) {
         }
         result.push(resultLine);
     }
+
+    console.log("result", result);
+
+    result = normalizarValores(result)
 
     return result;
 }
@@ -150,24 +159,24 @@ export function binaryDilation(image, mascara) {
 // Função para realizar a operação de abertura em uma imagem binária
 export function binaryOpening(image, structuringElement, isBinary) {
     if (isBinary) {
-        const resultbinaryErosion = teste.binaryErosion(image, structuringElement);
+        const resultbinaryErosion = grayErosion(image, structuringElement, true);
         imagemErodida = resultbinaryErosion;
         imagemBinaria = pegarMediaImagem(image);
-        return binaryDilation(resultbinaryErosion, structuringElement);
+        return grayDilation(resultbinaryErosion, structuringElement, true);
     }
-    const resultbinaryErosion = grayErosion(image, structuringElement);
+    const resultbinaryErosion = grayErosion(image, structuringElement, false);
     imagemErodida = resultbinaryErosion;
-    return binaryDilation(resultbinaryErosion, structuringElement);
+    return grayDilation(resultbinaryErosion, structuringElement, false);
 }
 
 // Função para realizar a operação de fechamento em uma imagem binária
 export function binaryClosing(image, structuringElement, isBinary) {
     if (isBinary) {
-        const resultbinaryDilation = binaryDilation(image, structuringElement);
+        const resultbinaryDilation = grayDilation(image, structuringElement, true);
         imagemDilatada = resultbinaryDilation;
-        return teste.binaryErosion(resultbinaryDilation, structuringElement);
+        return grayErosion(resultbinaryDilation, structuringElement, true);
     }
-    const resultbinaryDilation = grayDilation(image, structuringElement);
+    const resultbinaryDilation = grayDilation(image, structuringElement, false);
     imagemDilatada = resultbinaryDilation;
     return grayErosion(resultbinaryDilation, structuringElement);
 }
@@ -176,21 +185,25 @@ export function binaryClosing(image, structuringElement, isBinary) {
 export function binaryGradient(image, structuringElement, isBinary) {
     if (isBinary) {
         imagemBinaria = pegarMediaImagem(image);
-        const resultbinaryDilation = binaryDilation(image, structuringElement);
+        const resultbinaryDilation = grayDilation(image, structuringElement, true);
         imagemDilatada = resultbinaryDilation;
-        const resultbinaryErosion = teste.binaryErosion(image, structuringElement);
+        const resultbinaryErosion = grayErosion(image, structuringElement, true);
         imagemErodida = resultbinaryErosion;
 
         const resultbinaryGradient = [];
         for (let i = 0; i < image.length; i++) {
-            resultbinaryGradient[i] = resultbinaryDilation[i] - resultbinaryErosion[i];
+            resultbinaryGradient[i] = []; // Inicializa cada linha da matriz como um array
+            for (let j = 0; j < image[i].length; j++) {
+                resultbinaryGradient[i][j] = resultbinaryDilation[i][j] - resultbinaryErosion[i][j];
+            }
         }
+    
         return resultbinaryGradient;
     }
-    const resultGrayDilation = grayDilation(image, structuringElement);
+    const resultGrayDilation = grayDilation(image, structuringElement, false);
     imagemDilatada = resultGrayDilation;
 
-    const resultGrayErosion = grayErosion(image, structuringElement);
+    const resultGrayErosion = grayErosion(image, structuringElement, false);
     imagemErodida = resultGrayErosion;
 
     const resultgrayGradient = [];
@@ -255,4 +268,51 @@ export function binaryBottomHat(image, structuringElement, isBinary) {
     }
 
     return resultBottomHat;
+}
+
+
+export function normalizarValores(matriz){
+    let menorPixel = 77777777;
+    let maiorPixel = -77777777;
+
+    for(var linha = 0; linha < matriz.length; linha++){
+        for(var coluna = 0; coluna < matriz[0].length; coluna++){
+            if(matriz[linha][coluna] > maiorPixel){
+                maiorPixel = matriz[linha][coluna];
+            }
+            if(matriz[linha][coluna] < menorPixel){
+                menorPixel = matriz[linha][coluna];
+            }
+        }
+    }
+
+    for(var linha = 0; linha < matriz.length; linha++){
+        for(var coluna = 0; coluna < matriz[0].length; coluna++){
+            let pixelNormalizado = ((matriz[linha][coluna] - menorPixel)/(maiorPixel - menorPixel)) * 255;
+            matriz[linha][coluna] = Math.round(pixelNormalizado);
+        }
+    }
+
+    return matriz;
+}
+
+//Função para trucar os valores
+export function truncarValores(matriz){
+
+    for(var linha = 0; linha < matriz.length; linha++){
+        for(var coluna = 0; coluna < matriz[0].length; coluna++){
+            let valorArredondado = Math.round(matriz[linha][coluna]);
+
+            if(valorArredondado > 255){
+                matriz[linha][coluna] = 255;
+            }
+            else if(valorArredondado < 0 ){
+                matriz[linha][coluna] = 0;
+            }
+            else{
+                matriz[linha][coluna] = valorArredondado;
+            }
+        }
+    }
+    return matriz;
 }

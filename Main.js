@@ -672,7 +672,7 @@ selectTransformacoes.addEventListener('change', function () {
             inputIntGeral.style.display = 'block';
         } else if (selectTransformacoes.value === "trans5") {
             tituloMatriz1.innerText = "Faixa Dinãmica";
-            inputFxDin.style.display = 'block';
+            inputFxDin.style.display = 'none';
         } else if (selectTransformacoes.value === "trans6") {
             tituloMatriz1.innerText = "Linear";
             inputLinear.style.display = 'block';
@@ -879,7 +879,8 @@ btnAplicarOpMorfologicos.addEventListener('click', function () {
         seeBin = radioIsBinary.checked;
         matrizModificada = opMorfologicas.grayErosion(matrizBase, filtroAtualizado, radioIsBinary.checked);
     } else if (opcaoOpMorfologicos === "op3") {
-        matrizModificada = opMorfologicas.grayDilation(matrizBase, filtroAtualizado);
+        seeBin = radioIsBinary.checked;
+        matrizModificada = opMorfologicas.grayDilation(matrizBase, filtroAtualizado, radioIsBinary.checked);
     } else if (opcaoOpMorfologicos === "op4") {
         seeBin = true;
         matrizModificada = teste.binaryErosion(matrizBase, filtroAtualizado);
@@ -962,8 +963,8 @@ btnAplicarOpMorfologicos.addEventListener('click', function () {
         canvasImgFiltrada2.style.display = "block";
         canvasImgFiltrada.style.display = "block";
 
-        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemDilatada, canvasImgFiltrada2);
-        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemErodida, canvasImgFiltrada);
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemErodida, canvasImgFiltrada2);
+        renderizarPGMNoCanvas(dadosPGM, opMorfologicas.imagemDilatada, canvasImgFiltrada);
     }else if(gradiente === 2){
         canvasImgFiltrada3.style.display = "block";
         canvasImgFiltrada2.style.display = "block";        
@@ -1030,13 +1031,15 @@ btnAplicarTrans.addEventListener('click', function () {
         const log = document.getElementById('log').value;
         matrizModificada = transformacoesImg.logaritmo(matrizBase, log);
     } else if (transformacoes === "trans4") {
+        document.getElementById('intGW').style.display = 'none';
         const w = document.getElementById('intGW').value;
         const a = document.getElementById('intGA').value;
         matrizModificada = transformacoesImg.TransferênciadeIntensidadeGeral(matrizBase, w, a);
     } else if (transformacoes === "trans5") {
-        const min = document.getElementById('fxDiMin').value;
-        const max = document.getElementById('fxDiMax').value;
-        matrizModificada = transformacoesImg.TransferênciaFaixaDinâmica(matrizBase, min, max);
+        const min = geometricasFunc.pegarMin(matrizBase);
+        const max = geometricasFunc.pegarMax(matrizBase);
+        const c = 62;
+        matrizModificada = transformacoesImg.TransferênciaFaixaDinâmica(matrizBase, min, max, c);
     } else if (transformacoes === "trans6") {
         const a = document.getElementById('linearA').value;
         const b = document.getElementById('linearB').value;
@@ -1058,11 +1061,25 @@ btnAplicarGeo.addEventListener('click', function () {
 
     if (geometricas === "geo1") {
         matrizModificada = geometricasFunc.zoom(matrizBase, geoValue.value);
+        const larg = matrizModificada.length;
+        const alt = matrizModificada[0].length;
+        renderizarPGMNoCanvas({ largura: larg, altura: alt }, matrizModificada, canvasImgFiltrada);
     } else if (geometricas === "geo2") {
         matrizModificada = geometricasFunc.rotate(matrizBase, geoValue.value);
+    console.log("matrizModificada", matrizModificada)
+
+        // renderizarPGMNoCanvas(dadosPGM, matrizModificada, canvasImgFiltrada);
+        const larg = matrizModificada.length;
+        const alt = matrizModificada[0].length;
+
+        console.log({ largura: larg, altura: alt })
+        renderizarPGMNoCanvas({ largura: larg, altura: alt }, matrizModificada, canvasImgFiltrada);
     } else if (geometricas === "geo3") {
         const axis = document.getElementById('geoAxisSelect').value;
         matrizModificada = geometricasFunc.reflect(matrizBase, axis);
+        const larg = matrizModificada.length;
+        const alt = matrizModificada[0].length;
+        renderizarPGMNoCanvas({ largura: larg, altura: alt }, matrizModificada, canvasImgFiltrada);
     } else if (geometricas === "geo4") {
         const a = document.getElementById('warpingA').value;
         const b = document.getElementById('warpingB').value;
@@ -1076,11 +1093,8 @@ btnAplicarGeo.addEventListener('click', function () {
         console.log(a, b, c, d, e, f, i, j)
         
         matrizModificada = geometricasFunc.warping(matrizBase, a, b, c, d, e, f, i, j);
+        const larg = matrizModificada.length;
+        const alt = matrizModificada[0].length;
+        renderizarPGMNoCanvas({ largura: larg, altura: alt }, matrizModificada, canvasImgFiltrada);
     } 
-    console.log("matrizModificada", matrizModificada)
-
-    const larg = matrizModificada.length;
-    const alt = matrizModificada[0].length;
-
-    renderizarPGMNoCanvas({ largura: larg, altura: alt }, matrizModificada, canvasImgFiltrada);
 });

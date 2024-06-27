@@ -21,7 +21,7 @@ export function gama(image, param) {
     const newPixels = []
     image.forEach(pixelLine => {
         const newPixelLine = [];
-        pixelLine.forEach(pixel => newPixelLine.push(Math.pow(pixel / 255, param) * 255))
+        pixelLine.forEach(pixel => newPixelLine.push(Math.sqrt(Math.pow(pixel / 255, param) * 255)))
         newPixels.push(newPixelLine)
     });
     console.log(newPixels)
@@ -41,33 +41,43 @@ export function logaritmo(image, param) {
 
 // Função para aplicar a transferência de intensidade geral em uma imagem
 export function TransferênciadeIntensidadeGeral(image, w, a) {
-    const newPixels = []
+    let newPixels = [];
+    
     image.forEach(pixelLine => {
         const newPixelLine = [];
-        pixelLine.forEach(pixel => newPixelLine.push(w + a * pixel))
+        pixelLine.forEach(pixel => {
+            w = a * pixel - 1;
+            newPixelLine.push(w)
+        }
+        )
         newPixels.push(newPixelLine)
     });
+    newPixels = func.truncarValores(newPixels);
     return newPixels;
 }
 
 // Função para aplicar a transferência de faixa dinâmica em uma imagem
-export function TransferênciaFaixaDinâmica(image, min, max) {
+export function TransferênciaFaixaDinâmica(image, min, max, c) {
     const newPixels = []
     image.forEach(pixelLine => {
         const newPixelLine = [];
-        pixelLine.forEach(pixel => newPixelLine.push(((pixel - min) / (max - min)) * 255))
+        pixelLine.forEach(pixel => newPixelLine.push(((pixel - min) / (max - min)) * c))
         newPixels.push(newPixelLine)
     });
     return newPixels;
 }
 
+import * as func from './../OperacoesMorfologicas/operadores-morfologicos.js';
+
 // Função para aplicar a transferência linear em uma imagem
 export function TransferênciaLinear(image, a, b) {
-    const newPixels = []
+    let newPixels = []
     image.forEach(pixelLine => {
         const newPixelLine = [];
         pixelLine.forEach(pixel => newPixelLine.push(a * pixel + b))
         newPixels.push(newPixelLine)
     });
+
+    newPixels = func.normalizarValores(newPixels);
     return newPixels;
 }
