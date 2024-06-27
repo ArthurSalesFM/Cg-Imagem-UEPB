@@ -6,6 +6,7 @@ import * as aplicar from "./Scripts/Filtros/aplicarFiltros.js";
 import * as opMorfologicas from "./Scripts/OperacoesMorfologicas/operadores-morfologicos.js";
 import * as teste from "./Scripts/OperacoesMorfologicas/teste.js";
 import * as transformacoesImg from "./Scripts/Transformacoes/transformacoes.js";
+import * as geometricasFunc from "./Scripts/Transformacoes/geometricas.js";
 import { normalizarValores, truncarValores } from "./Scripts/AjustesPixels/AjustaPixel.js";
 import { criacaoDasTabelas, retornaMatrizEqualizada } from "./Scripts/Histograma/ExtracaoDeDados.js";
 import { exibirInformacoesHistograma } from "./Scripts/Histograma/exibicaoDeDados.js";
@@ -29,6 +30,7 @@ const divValorParaOpMorfologicos = document.querySelector('.valorParaOpMorfologi
 const divImportarParaOperacao = document.querySelector('.importarParaOperacao');
 
 const divTranformacoes = document.querySelector('.opcaoTransImagem');
+const divGeometricas = document.querySelector('.opcaoGeometricas');
 
 //Constantes
 const opcaoDeProcessamento = document.getElementById('opcaoDePr'); // escolha do tipo de processamento (filtro/histograma/etc...)
@@ -38,7 +40,9 @@ const EntradaValorHB = document.getElementById('valorHB'); // Campo onde usuári
 const btnAplicarFlitro = document.getElementById('aplicarFlitro');// Botão para aplicar os filtros
 const btnAplicarOpMorfologicos = document.getElementById('aplicarOpMorfologicos');// Botão para aplicar operadores morfologicos
 const btnAplicarTrans = document.getElementById('aplicarTrans');// Botão para aplicar operadores morfologicos
+const btnAplicarGeo = document.getElementById('aplicarGeo');// Botão para aplicar operadores morfologicos
 const radioTruncamento = document.getElementById('radio1');
+const inputGeo = document.getElementById('geoInput');
 const inputGama = document.getElementById('gamaInput');
 const inputLog = document.getElementById('logInput');
 const inputIntGeral = document.getElementById('intensidadeGeralInput');
@@ -50,6 +54,7 @@ let ultimaImagemCarregada = null;
 
 const selectOpcoesOpMorfologicos = document.getElementById('opcoesOp'); // Obtém o select de opções
 const selectTransformacoes = document.getElementById('transformacoes'); // Obtém o select de opções
+const selectGeometricas = document.getElementById('geometricas'); // Obtém o select de opções
 
 // Células das duas matrizes
 const celula00 = document.getElementById('celula00');
@@ -125,6 +130,8 @@ const imagemModificadaHist = document.getElementById('imagemModificadaHist');
 var canvasImagemModificadaHist = imagemModificadaHist.getContext('2d');
 const histogramaDaImagemModificada = document.getElementById('histogramaDaImagemModificada');
 var canvasHistogramaDaImagemModificada = histogramaDaImagemModificada.getContext('2d');
+
+let geometricas;
 
 let controleDeAberturaDeImagens2 = 0;
 
@@ -211,6 +218,15 @@ function ativaDivsTransformacoes(mostrar) {
     divImagemFiltradaFiltro.style.display = mostrar ? 'block' : 'none';
     divBotaoAplicar.style.display = mostrar ? "block" : "none";
 }
+
+//Função para habilitar e desabilitar os componentes de filtros
+function ativaDivsGeometricas(mostrar) {
+    divGeometricas.style.display = mostrar ? 'block' : 'none';
+    divImagemImportadaFiltro.style.display = mostrar ? 'block' : 'none';
+    divImagemFiltradaFiltro.style.display = mostrar ? 'block' : 'none';
+    divBotaoAplicar.style.display = mostrar ? "block" : "none";
+}
+
 
 //Seta os valores dos filtros nos input, para visualização do usuário na matriz 1
 function setValoresDosFiltrosNosInputsM1(matriz) {
@@ -360,6 +376,7 @@ opcaoDeProcessamento.addEventListener('change', function () {
     habilitaDesabilitaInputeAplicacaoDoOp(false);
     limpaCanvasSaidas();
     ativaDivsTransformacoes(false);
+    ativaDivsGeometricas(false);
 
     if (opcaoDeProcessamento.value === "opcaoP1") {
         ativaDivsDeFiltro(true);
@@ -391,6 +408,12 @@ opcaoDeProcessamento.addEventListener('change', function () {
     }
     else if (opcaoDeProcessamento.value === 'opcaoP4') {
         ativaDivsTransformacoes(true);
+        const largura = canvasImgFiltrada.width;
+        const altura = canvasImgFiltrada.height;
+        canvasBin.clearRect(0, 0, largura, altura);
+    }
+    else if (opcaoDeProcessamento.value === 'opcaoP5') {
+        ativaDivsGeometricas(true);
         const largura = canvasImgFiltrada.width;
         const altura = canvasImgFiltrada.height;
         canvasBin.clearRect(0, 0, largura, altura);
@@ -664,6 +687,40 @@ selectTransformacoes.addEventListener('change', function () {
         canvasFiltro.clearRect(0, 0, largura, altura);
     }
 
+});
+
+selectGeometricas.addEventListener('change', function () {
+    desativaAtivaCanvasDeSaidas(false);
+    limpaCanvasSaidas();
+    if (selectGeometricas.value === "opcao1") {
+        habilitaDesabilitaInputeAplicacaoDoFiltro(true);
+        geometricas = "";
+        tituloMatriz1.innerText = "Mascara"
+        divMatriz2.style.display = 'none';
+    }
+    else {
+        habilitaDesabilitaInputeAplicacaoDoFiltro(false);
+        geometricas = selectGeometricas.value;
+        divMatriz2.style.display = 'none';
+        canvasImgFiltrada.style.display = "block";
+        setValoresDosFiltrosNosInputsM1(opMorfologicas.matrizBase);
+
+        setSeeInput();
+
+        if (selectTransformacoes.value === "geo1") {
+            tituloMatriz1.innerText = "Ampliação e Redução";
+        } else if (selectTransformacoes.value === "geo2") {
+            tituloMatriz1.innerText = "Rotacionar";
+        } else if (selectTransformacoes.value === "geo3") {
+            tituloMatriz1.innerText = "Reflexão";
+        } else if (selectTransformacoes.value === "geo4") {
+            tituloMatriz1.innerText = "Warping";
+        } 
+
+        let largura = canvasImgFiltrada.width;
+        let altura = canvasImgFiltrada.height;
+        canvasFiltro.clearRect(0, 0, largura, altura);
+    }
 });
 
 function setSeeInput(){
@@ -991,4 +1048,42 @@ btnAplicarTrans.addEventListener('click', function () {
     canvasFiltro.clearRect(0, 0, largura, altura);
 
     renderizarPGMNoCanvas(dadosPGM, matrizModificada, canvasImgFiltrada);
+});
+
+btnAplicarGeo.addEventListener('click', function () {
+    //Como pode haver modificações feitas pelo o usuário, então é mais prudente pegar os valores que foi mostrado para o usuário
+    //Se pegar diretamente do filtro pode não ser o resultado esperado pelo o usuário, uma vez que possa ter mudado o valor do filtro.
+    canvasImgFiltrada.style.display = 'block';
+    let matrizModificada = [];
+    let largura = canvasImgFiltrada.width;
+    let altura = canvasImgFiltrada.height;
+    canvasFiltro.clearRect(0, 0, largura, altura);
+
+    if (geometricas === "geo1") {
+        matrizModificada = geometricasFunc.zoom(matrizBase, geoValue.value);
+    } else if (geometricas === "geo2") {
+        matrizModificada = geometricasFunc.rotate(matrizBase, geoValue.value);
+    } else if (geometricas === "geo3") {
+        const axis = document.getElementById('geoAxisSelect').value;
+        matrizModificada = geometricasFunc.reflect(matrizBase, axis);
+    } else if (geometricas === "geo4") {
+        const a = document.getElementById('warpingA').value;
+        const b = document.getElementById('warpingB').value;
+        const c = document.getElementById('warpingC').value;
+        const d = document.getElementById('warpingD').value;
+        const e = document.getElementById('warpingE').value;
+        const f = document.getElementById('warpingF').value;
+        const i = document.getElementById('warpingI').value;
+        const j = document.getElementById('warpingJ').value;
+
+        console.log(a, b, c, d, e, f, i, j)
+        
+        matrizModificada = geometricasFunc.warping(matrizBase, a, b, c, d, e, f, i, j);
+    } 
+    console.log("matrizModificada", matrizModificada)
+
+    const larg = matrizModificada.length;
+    const alt = matrizModificada[0].length;
+
+    renderizarPGMNoCanvas({ largura: larg, altura: alt }, matrizModificada, canvasImgFiltrada);
 });

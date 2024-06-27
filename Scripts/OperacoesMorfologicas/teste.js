@@ -1,6 +1,9 @@
 import * as op from './operadores-morfologicos.js';
 
 export function binaryErosion(image, mascara) {
+
+    let newImage;
+
     const n = image.length;
     const m = image[0].length;
 
@@ -51,5 +54,5 @@ export function binaryErosion(image, mascara) {
 
     console.log("result", result);
 
-    return result; // Ative esta linha se desejar retornar o resultado
+    return result;
 }

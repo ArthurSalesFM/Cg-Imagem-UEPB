@@ -59,7 +59,8 @@
                     <option value="opcaoP2">Histograma</option>
                     <option value="opcaoP3">Operadores Morfológicos</option>
                     <option value="opcaoP4">Transformações</option>
-                    <option value="opcaoP5">etc....</option>
+                    <option value="opcaoP5">Geometricas</option>
+                    <option value="opcaoP6">etc....</option>
                 </select>
 
             </div>
@@ -174,6 +175,56 @@
 
             </div>
 
+            <div class="opcaoGeometricas" style="display: none;">
+
+                <label for="geometricas">Escolha uma opção</label>
+                <select id="geometricas" name="geometricas">
+                    <option value="opcao1">.............</option>
+                    <option value="geo1">Ampliação e Redução</option>
+                    <option value="geo2">Rotacionar</option>
+                    <option value="geo3">Reflexão</option>
+                    <option value="geo4">Warping</option>
+                </select>
+
+                <!-- Botão para aplicar o filtro escolhido -->
+                <div class="botaoAplicar" style="display: block;">
+                    <button id="aplicarGeo" class="btnAplicarFilto">Aplicar..</button>
+                </div>
+
+                <div class="botaoAplicar" style="display: block;" id="geoInput">
+                    <p>Defina o valor</p>
+                    <input type="number" class="celula" id="geoValue" value="0">
+                </div>
+
+                <div class="botaoAplicar" style="display: block;" id="geoInput">
+                    <p>Defina o valor</p>
+                    <select id="geoAxisSelect">
+                        <option value="horizontal">Horizontal</option>
+                        <option value="vertical">Vertical</option>
+                    </select>
+                </div>
+
+                <div class="matriz1">
+                    <div class="matriz">
+                        <div class="linha">
+                            <input type="number" class="celula" id="warpingA" value="0">
+                            <input type="number" class="celula" id="warpingB" value="0">
+                            <input type="number" class="celula" id="warpingC" value="0">
+                        </div>
+                        <div class="linha">
+                            <input type="number" class="celula" id="warpingD" value="0">
+                            <input type="number" class="celula" id="warpingE" value="0">
+                            <input type="number" class="celula" id="warpingF" value="0">
+                        </div>
+                        <div class="linha">
+                            <input type="number" class="celula" id="warpingI" value="0">
+                            <input type="number" class="celula" id="warpingJ" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
             <!-- **************************************** PARA AS OPÇÕES DE HISTOGRAMAS **************************************** -->
 
             <!-- FALTA FAZER....-->
